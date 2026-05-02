@@ -63,17 +63,16 @@ body {
   border-color: #9D4EDD;
 }
 
-/* ... (restante do CSS continua o mesmo) ... */
-</style>
+/* Outros estilos permanecem inalterados */
 
+</style>
 </head>
 <body>
 
 <!-- CONTROLES -->
-
 <div class="controls">
   <h2>⚙ EDITOR DE THUMBNAIL</h2>
-  
+
   <!-- Menu de Fontes -->
   <div class="ctrl-group">
     <label for="fontSelector">Escolha a Fonte:</label>
@@ -85,21 +84,49 @@ body {
       <option value="Share Tech Mono, monospace">Share Tech Mono</option>
     </select>
   </div>
-  
-  <!-- Resto dos controles -->
+
+  <!-- Resto dos controles para personalizar os textos -->
   <div class="ctrl-group">
     <label>Linha 1 do Título (branco)</label>
     <input type="text" id="t1" value="SCRIPT" oninput="update()">
   </div>
-
-  <!-- (Restante dos controles) -->
+  <div class="ctrl-group">
+    <label>Linha 2 do Título (roxo — destaque)</label>
+    <input type="text" id="t2" value="NMAP" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Linha 3 do Título (branco)</label>
+    <input type="text" id="t3" value="NO TERMUX!" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Subtítulo (verde)</label>
+    <input type="text" id="tsub" value="AUTOMATIZE SEUS SCANS COM UM CLIQUE!" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Bullet 1</label>
+    <input type="text" id="b1" value="SCRIPT PERSONALIZADO" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Bullet 2</label>
+    <input type="text" id="b2" value="SCANS AUTOMÁTICOS" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Bullet 3</label>
+    <input type="text" id="b3" value="DETECÇÃO DE VULNERABILIDADES" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Bullet 4</label>
+    <input type="text" id="b4" value="100% NO CELULAR" oninput="update()">
+  </div>
+  <div class="ctrl-group">
+    <label>Rodapé CTA</label>
+    <input type="text" id="footer" value="CÓDIGO DISPONÍVEL NA COMUNIDADE!" oninput="update()">
+  </div>
 
   <button class="btn-export" onclick="exportPNG()">⬇ EXPORTAR COMO PNG</button>
-
 </div>
 
 <!-- THUMBNAIL -->
-
 <div class="thumb-wrapper">
   <div id="thumbnail">
     <!-- Glows, bordas e outros elementos permanecem inalterados -->
@@ -114,15 +141,49 @@ body {
     </div>
 
     <!-- Restante do HTML -->
+
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  function update() {
-    const fields = ['t1','t2','t3','tsub','b1','b2','b3','b4','footer'];
-    fields.forEach(id => {
-      const el = document.getElementById('el-' + id);
-      const val = document.getElementById(id).value;
-      if (el) {
-        if (['b1','b2','b3','b4'].includes(id)) {
-          el.textContent = val
+// Função para atualizar os textos na thumbnail
+function update() {
+  const fields = ['t1','t2','t3','tsub','b1','b2','b3','b4','footer'];
+  fields.forEach(id => {
+    const el = document.getElementById('el-' + id);
+    const val = document.getElementById(id).value;
+    if (el) {
+      if (['b1','b2','b3','b4'].includes(id)) {
+        el.innerHTML = val;  // Mantém a formatação de texto com tags (ex: <span>)
+      } else {
+        el.textContent = val;  // Para outros campos, apenas insere o texto
+      }
+    }
+  });
+}
+
+// Função para alterar a fonte
+function changeFont() {
+  const selectedFont = document.getElementById('fontSelector').value;
+  document.body.style.fontFamily = selectedFont;  // Altera a fonte de todo o corpo
+  
+  // Atualiza a fonte nos elementos específicos
+  document.getElementById('el-t1').style.fontFamily = selectedFont;
+  document.getElementById('el-t2').style.fontFamily = selectedFont;
+  document.getElementById('el-t3').style.fontFamily = selectedFont;
+  document.getElementById('el-tsub').style.fontFamily = selectedFont;
+  document.getElementById('el-footer').style.fontFamily = selectedFont;
+  
+  // Salvar a fonte escolhida para persistência (caso o usuário recarregue a página)
+  localStorage.setItem('chosenFont', selectedFont);
+}
+
+// Carregar a fonte salva (caso o usuário já tenha selecionado uma antes)
+window.onload = function() {
+  const savedFont = localStorage.getItem('chosenFont');
+  if (savedFont) {
+    document.body.style.fontFamily = savedFont;
+    document.getElementById('fontSelector').value = savedFont;
+    document.getElementById('el-t1').style.fontFamily = savedFont;
+    document.getElementById('el
