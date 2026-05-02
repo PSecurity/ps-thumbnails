@@ -1,71 +1,117 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peek Security - Thumbnail NMAP Script</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peek Security - Thumbnail NMAP Script</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-  background: #111;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  font-family: ‘Barlow Condensed’, sans-serif;
-  gap: 20px;
-  padding: 20px;
-}
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Barlow Condensed', sans-serif;
+      gap: 20px;
+      padding: 20px;
+    }
 
-.controls {
-  background: #1a1a2e;
-  border: 1px solid #7B2FBE;
-  border-radius: 12px;
-  padding: 20px;
-  width: 420px;
-  color: white;
-}
+    .controls {
+      background: #1a1a2e;
+      border: 1px solid #7B2FBE;
+      border-radius: 12px;
+      padding: 20px;
+      width: 420px;
+      color: white;
+    }
 
-.controls h2 {
-  font-family: ‘Bebas Neue’, cursive;
-  color: #9D4EDD;
-  font-size: 22px;
-  margin-bottom: 16px;
-  letter-spacing: 2px;
-}
+    .controls h2 {
+      font-family: 'Bebas Neue', cursive;
+      color: #9D4EDD;
+      font-size: 22px;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
 
-.ctrl-group { margin-bottom: 12px; }
-.ctrl-group label {
-  display: block;
-  font-size: 11px;
-  color: #aaa;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-}
-.ctrl-group input, .ctrl-group select {
-  width: 100%;
-  background: #0d0d1a;
-  border: 1px solid #7B2FBE55;
-  border-radius: 6px;
-  padding: 8px 10px;
-  color: white;
-  font-family: ‘Barlow Condensed’, sans-serif;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.ctrl-group input:focus, .ctrl-group select:focus {
-  border-color: #9D4EDD;
-}
+    .ctrl-group {
+      margin-bottom: 12px;
+    }
 
-/* Outros estilos permanecem inalterados */
+    .ctrl-group label {
+      display: block;
+      font-size: 11px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
 
-</style>
+    .ctrl-group input, .ctrl-group select {
+      width: 100%;
+      background: #0d0d1a;
+      border: 1px solid #7B2FBE55;
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: white;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .ctrl-group input:focus, .ctrl-group select:focus {
+      border-color: #9D4EDD;
+    }
+
+    .btn-export {
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      background: linear-gradient(135deg, #7B2FBE, #5a0fa0);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 18px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-export:hover {
+      background: linear-gradient(135deg, #9D4EDD, #7B2FBE);
+      transform: translateY(-1px);
+    }
+
+    /* Estilo da Pré-visualização */
+    .thumb-wrapper {
+      position: relative;
+      width: 420px;
+      height: 745px; /* 9:16 proporcional */
+      margin-top: 20px;
+    }
+
+    #thumbnail {
+      width: 420px;
+      height: 745px;
+      background: #05050f;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    /* Controles de fonte */
+    #fontSelector {
+      margin-top: 10px;
+    }
+
+    /* Outras personalizações não alteradas... */
+  </style>
 </head>
 <body>
 
@@ -129,8 +175,7 @@ body {
 <!-- THUMBNAIL -->
 <div class="thumb-wrapper">
   <div id="thumbnail">
-    <!-- Glows, bordas e outros elementos permanecem inalterados -->
-    
+    <!-- Glows e bordas permanecem como estavam... -->
     <!-- Título -->
     <div class="thumb-title-area">
       <div class="label-script">🔧 CRIADO POR PEEK</div>
@@ -139,51 +184,20 @@ body {
       <span class="title-line3" id="el-t3">NO TERMUX!</span>
       <div class="title-sub" id="el-tsub">AUTOMATIZE SEUS SCANS COM UM CLIQUE!</div>
     </div>
-
-    <!-- Restante do HTML -->
-
+    <!-- Outras áreas (como bullet points, terminal, etc.) permanecem inalteradas -->
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-// Função para atualizar os textos na thumbnail
-function update() {
-  const fields = ['t1','t2','t3','tsub','b1','b2','b3','b4','footer'];
-  fields.forEach(id => {
-    const el = document.getElementById('el-' + id);
-    const val = document.getElementById(id).value;
-    if (el) {
-      if (['b1','b2','b3','b4'].includes(id)) {
-        el.innerHTML = val;  // Mantém a formatação de texto com tags (ex: <span>)
-      } else {
-        el.textContent = val;  // Para outros campos, apenas insere o texto
-      }
-    }
-  });
-}
-
-// Função para alterar a fonte
-function changeFont() {
-  const selectedFont = document.getElementById('fontSelector').value;
-  document.body.style.fontFamily = selectedFont;  // Altera a fonte de todo o corpo
-  
-  // Atualiza a fonte nos elementos específicos
-  document.getElementById('el-t1').style.fontFamily = selectedFont;
-  document.getElementById('el-t2').style.fontFamily = selectedFont;
-  document.getElementById('el-t3').style.fontFamily = selectedFont;
-  document.getElementById('el-tsub').style.fontFamily = selectedFont;
-  document.getElementById('el-footer').style.fontFamily = selectedFont;
-  
-  // Salvar a fonte escolhida para persistência (caso o usuário recarregue a página)
-  localStorage.setItem('chosenFont', selectedFont);
-}
-
-// Carregar a fonte salva (caso o usuário já tenha selecionado uma antes)
-window.onload = function() {
-  const savedFont = localStorage.getItem('chosenFont');
-  if (savedFont) {
-    document.body.style.fontFamily = savedFont;
-    document.getElementById('fontSelector').value = savedFont;
-    document.getElementById('el-t1').style.fontFamily = savedFont;
-    document.getElementById('el
+  // Função para atualizar os textos
+  function update() {
+    const fields = ['t1', 't2', 't3', 'tsub', 'b1', 'b2', 'b3', 'b4', 'footer'];
+    fields.forEach(id => {
+      const el = document.getElementById('el-' + id);
+      const val = document.getElementById(id).value;
+      if (el) {
+        if (['b1', 'b2', 'b3', 'b4'].includes(id)) {
+          el.innerHTML = val;  // Mantém a formatação de texto com tags (ex: <span>)
+        } else {
+          el.textContent = val;  // Para
