@@ -1,7 +1,5 @@
 # 📂 PS-THUMBNAILS [v1.0 OFFICIAL] 
 
----
-
 ## ⚡ QUICK OVERVIEW
 O **ps-thumbnails** é a engine oficial de geração de identidades visuais da PeekSecurity. Projetado para máxima agilidade e impacto estético, o editor converte parâmetros de texto em thumbnails de alta fidelidade com estética hacker/cyberpunk.
 
