@@ -1,49 +1,149 @@
-# ⚡ [SYSTEM_OVERRIDE]: PS.EDITOR_v2
+```markdown
+# 🎨 ps.editor v2.0 – Thumbnail Engine para TikTok & Redes
 
-```text
-> STATUS: [ STABLE_BUILD ]
-> VERSION: 2.0.0_FULL_CONTROL
-> ACCESS: GRANTED // PEEK_SECURITY_PROTOCOL
+![version](https://img.shields.io/badge/version-2.0-purple?style=flat-square)
+![platform](https://img.shields.io/badge/platform-Android%20%7C%20Termux%20%7C%20Kali%20%7C%20Web-green?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
+
+> **Criado por Peek Security** – *“Fala rapaziada, suavidade?”*
+
+Engine de renderização de thumbnails diretamente no navegador.  
+Sem Photoshop, sem apps pesados. **Apenas HTML, CSS e JavaScript puro.**
+
+---
+
+## 🔥 Destaques
+
+- ✅ **Proporção 9:16** – exatamente o padrão **TikTok HD** (720x1280)
+- ✅ **Editor em tempo real** – todas as informações atualizam instantaneamente
+- ✅ **Temas dinâmicos** – Roxo, Verde, Vermelho, Azul (troca com 1 clique)
+- ✅ **Fundo estilo Hacker** – grid e gradiente que acompanham o tema
+- ✅ **Responsivo** – funciona no celular (rolagem horizontal) e no PC (lado a lado)
+- ✅ **Download em HD** – gera PNG com qualidade 2x ou 3x
+- ✅ **Leve e 100% offline** – roda localmente, sem depender de servidor
+
+---
+
+## 📱 Onde rodar?
+
+- **Termux** (Android)
+- **Kali Linux / Nethunter**
+- **Qualquer navegador** (PC ou celular)
+- **Servidor local** (Python, Apache, etc.)
+
+---
+
+## 🚀 Como usar
+
+1. **Clone o repositório**
+   ```bash
+   git clone https://github.com/PSecurity/ps-thumbnails.git
+   cd ps-thumbnails
+```
+
+1. Abra o arquivo index.html no navegador
+   · No Termux: python3 -m http.server 8080 e acesse http://localhost:8080
+2. Edite os campos – todos os textos da thumbnail alteram em tempo real
+3. Clique em "BAIXAR THUMBNAIL (PNG)" – a imagem será salva na sua pasta de downloads
+
+---
+
+🎛️ O que você pode editar?
+
+Campo Descrição
+URL Imagem Demo Imagem de fundo (hacker asset)
+Logo Parte 1 e 2 Texto do cabeçalho
+Tag Superior Dir. Texto no canto superior direito
+Etiqueta Título Pequeno selo acima do título
+Título Linha 1,2,3 Bloco principal da thumb
+Subtítulo Impacto Texto verde em destaque
+Badge 1 e 2 Selos laterais
+Terminal (Header, Comando, Logs, Status) Bloco estilo terminal
+Bullet 1 a 4 Itens com ícones
+Aviso Rodapé e CTA Textos do rodapé
+
+---
+
+🎨 Temas disponíveis
+
+Clique nos botões circulares coloridos no topo do painel:
+
+· 🟣 Roxo (padrão – Peek Security)
+· 🟢 Verde (estilo Matrix)
+· 🔴 Vermelho (alerta total)
+· 🔵 Azul (modo noturno/blue team)
+
+O fundo da página muda automaticamente junto com o tema!
+
+---
+
+🖥️ Layout responsivo
+
+· Desktop (≥1500px) – editor e thumbnail lado a lado, mesma altura (1280px)
+· Tablet / Telas médias (740px – 1499px) – blocos empilhados, cada um com 720px de largura
+· Mobile (<740px) – rolagem horizontal para manter a thumb exata (sem distorção)
+
+---
+
+🧰 Personalização avançada
+
+Quer mudar o tamanho da thumbnail?
+Edite as variáveis CSS no início do index.html:
+
+```css
+.wrapper, #thumbnail {
+  width: 720px;   /* altere aqui */
+  height: 1280px; /* e aqui */
+}
+```
+
+⚠️ Ajuste também as posições internas (.t-l1, .terminal, etc.) se mudar a proporção.
+
+---
+
+📦 Estrutura do projeto
 
 ```
-## 💀 .LOG_SUMMARY
-O **ps.editor v2.0** é o motor de renderização visual oficial da **PEEK SECURITY**. Uma engine de design *raw-code* projetada para forjar thumbnails de alta fidelidade diretamente no buffer do navegador. Sem softwares pesados, sem perda de tempo — apenas código e performance.
-### 🧩 MODULES_STABILIZED
- * **[ 🟢 ] FULL_CONTROL:** Interface restaurada com 21 vetores de entrada (Terminal, Bullets, Badges).
- * **[ 🟢 ] ASSET_INJECTION:** Injeção dinâmica de PNGs via URL (Cross-Origin Enabled).
- * **[ 🟢 ] CHROMA_SHIFT:** Temas dinâmicos (Purple, Green, Red, Blue) com sincronização de Neon Glow.
- * **[ 🟢 ] NEON_RENDER:** Processamento via html2canvas com upscaling de 3x para densidade máxima de pixels.
-## 🛠️ [SYSTEM_MANIPULATION]
-### // OPERAÇÃO_DO_TERMINAL
-O editor permite a simulação total de um ambiente de shell. Você pode customizar:
- * Terminal Header: Nome da instância de shell.
- * Command Prompt: O comando principal sendo executado.
- * Log Output: Mensagens do sistema e status de vulnerabilidades detectadas.
-### // COMO_OPERAR
- 1. **INICIALIZAÇÃO:** Execute o index.html em qualquer navegador moderno.
- 2. **CONFIGURAÇÃO:** No painel **sudo ps.editor**, preencha os campos de texto.
- 3. **INJEÇÃO:** Insira a URL de um asset transparente (Máscara/Logo) no campo URL do PNG.
- 4. **COMPILAÇÃO:** Clique em BAIXAR THUMBNAIL para exportar o buffer em PNG Ultra HD.
-## 💻 .SYS_SPECS
- * **CORE:** HTML5 / CSS3 / Vanilla JS
- * **ENGINE:** Html2Canvas (v1.4.1)
- * **FONTS:** Bebas Neue | Barlow Condensed | Share Tech Mono
- * **Z-INDEX_HIERARCHY:**
-   * LVL_10: UI Layer (Textos e Terminal)
-   * LVL_05: FX Layer (Scanlines e Overlays)
-   * LVL_02: Subject Layer (Assets Injetados)
-   * LVL_01: Base Layer (Radial Glow e Grid)
-## ⚠️ [ALERT]
-> **CORS_WARNING:** Se a imagem injetada não aparecer no download final, certifique-se de que o host da imagem (Ex: Imgur, GitHub, Wikimedia) permite acesso externo. Imagens locais ou de hosts privados podem ser bloqueadas pelo buffer de renderização.
-> 
-<p align="center">
-<img src="https://img.shields.io/badge/DEVELOPED_BY-PEEK_SECURITY-7B2FBE?style=for-the-badge&logo=hackthebox&logoColor=white" />
-<img src="https://img.shields.io/badge/VERSION-2.0_STABLE-green?style=for-the-badge&logo=linux&logoColor=white" />
-</p>
-
-```text
-[EOF] - CONSTRUÍDO PELA COMUNIDADE PEEKSECURITY
-----------------------------------------------
-"Knowledge is the only weapon that doesn't need a license."
-
+ps-thumbnails/
+├── index.html       # Ferramenta completa (CSS + HTML + JS)
+├── README.md        # Este arquivo
+└── (opcional) assets/
+    └── suas-imagens.png
 ```
+
+---
+
+🧠 Tecnologias utilizadas
+
+· HTML5
+· CSS3 (Flexbox, Grid, animações, variáveis)
+· JavaScript (Vanilla)
+· html2canvas – renderização da thumb em PNG
+
+---
+
+👤 Créditos
+
+Desenvolvido por Gilberto (Peek Security)
+
+· 🔗 GitHub
+· 🔗 TikTok
+· 🔗 Blog
+
+---
+
+📄 Licença
+
+MIT – sinta-se à vontade para usar, modificar e distribuir.
+Só mantenha os créditos, combinado? 😉
+
+---
+
+🤝 Contribuições
+
+Sugestões e melhorias são bem-vindas. Abra uma issue ou envie um pull request.
+
+---
+
+Fala rapaziada, baixa aí, customiza do seu jeito e faz a sua arte hacker.
+Tamo junto, segue nos! 🚀
