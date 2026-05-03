@@ -1,12 +1,3 @@
-<!--
-# =====================================
-# PS-THUMBNAILS - PeekSecurity
-# PS-THUMBNAILS GENERATOR
-# Autor: Peek | @PeekSecurity
-# GitHub: https://psecurity.github.io/PSecurity
-# ===================================== 
--->
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -22,10 +13,20 @@
   .theme-blue { --main: #003366; --acc: #0077ff; --green: #00f2ff; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; }
+  body { background: #0a0a0a; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; min-height: 100vh; }
 
-  /* PAINEL TOTAL */
-  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 580px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 70vh; overflow-y: auto; }
+  /* --- NOVO CONTAINER PRINCIPAL (FLEX) --- */
+  .app-container {
+    display: flex;
+    flex-direction: column;  /* padrão: empilhado (mobile) */
+    align-items: center;
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* PAINEL TOTAL (mesmo estilo original) */
+  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 580px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 70vh; overflow-y: auto; }
   .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
   .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
   .t-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
@@ -38,7 +39,7 @@
 
   .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; }
 
-  /* THUMBNAIL */
+  /* THUMBNAIL (wrapper e #thumbnail originais) */
   .wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
 
@@ -50,7 +51,7 @@
   @keyframes move { 0% { top: 0; } 100% { top: 100%; } }
   #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(var(--main) 0.5px, transparent 0.5px); background-size: 20px 20px; opacity: 0.1; z-index: 1; }
 
-  /* CONTEÚDO V1.3 */
+  /* CONTEÚDO V1.3 (original) */
   .header-main { position: absolute; top: 20px; left: 20px; z-index: 10; font-family: 'Bebas Neue'; font-size: 22px; }
   .tag-tr { position: absolute; top: 20px; right: 20px; border: 1px solid var(--acc); padding: 3px 10px; font-family: 'Share Tech Mono'; font-size: 12px; color: var(--acc); background: rgba(0,0,0,0.7); z-index: 10; }
   .title-block { position: absolute; top: 55px; left: 20px; right: 20px; z-index: 10; }
@@ -69,17 +70,33 @@
   .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
   .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; }
 
-  /* RODAPÉ DINÂMICO ROXO */
   .footer { position: absolute; bottom: 0; width: 100%; height: 140px; background: linear-gradient(to top, #000 60%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); }
   .f-warn { font-size: 11px; color: #ccc; letter-spacing: 4px; margin-bottom: 8px; font-weight: 900; }
   .f-cta { font-family: 'Bebas Neue'; font-size: 28px; color: white; letter-spacing: 2px; }
   .f-cta span { color: var(--main); font-size: 32px; }
 
-  /* 🔧 AJUSTE MOBILE - SOMENTE ALINHAMENTO E CENTRALIZAÇÃO */
+  /* --- RESPONSIVIDADE: MOBILE EMPILHADO / DESKTOP LADO A LADO --- */
+  @media (min-width: 900px) {
+    .app-container {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .controls {
+      width: 480px;
+      margin-bottom: 0;
+      position: sticky;
+      top: 20px;
+    }
+    .wrapper {
+      flex-shrink: 0;
+    }
+  }
+
   @media (max-width: 680px) {
     body { padding: 10px; }
-    .controls { width: 100%; max-width: 420px; margin: 0 auto 20px auto; padding: 15px; }
+    .controls { width: 100%; max-width: 420px; padding: 15px; margin: 0 auto; }
     .wrapper { width: 100%; display: flex; justify-content: center; }
     #thumbnail { width: 100%; max-width: 420px; height: auto; aspect-ratio: 420 / 745; }
     .grid { gap: 8px; }
@@ -91,88 +108,91 @@
 </head>
 <body class="theme-purple">
 
-<div class="controls">
-  <h2>🎛️ ps.editor</h2>
-  <div class="theme-selector">
-    <div class="t-btn" style="background:#7B2FBE" onclick="setTheme('theme-purple')"></div>
-    <div class="t-btn" style="background:#00ff41" onclick="setTheme('theme-green')"></div>
-    <div class="t-btn" style="background:#ff0000" onclick="setTheme('theme-red')"></div>
-    <div class="t-btn" style="background:#0077ff" onclick="setTheme('theme-blue')"></div>
+<!-- NOVA ESTRUTURA: app-container para flex responsivo -->
+<div class="app-container">
+  <div class="controls">
+    <h2>🎛️ ps.editor</h2>
+    <div class="theme-selector">
+      <div class="t-btn" style="background:#7B2FBE" onclick="setTheme('theme-purple')"></div>
+      <div class="t-btn" style="background:#00ff41" onclick="setTheme('theme-green')"></div>
+      <div class="t-btn" style="background:#ff0000" onclick="setTheme('theme-red')"></div>
+      <div class="t-btn" style="background:#0077ff" onclick="setTheme('theme-blue')"></div>
+    </div>
+
+    <div class="grid">
+      <div class="group full"><label>URL Imagem Demo</label><input type="text" id="i-png" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" oninput="up()"></div>
+      
+      <div class="group"><label>Logo Parte 1</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
+      <div class="group"><label>Logo Parte 2</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
+      <div class="group"><label>Tag Superior Dir.</label><input type="text" id="i-tr" value=">_ TERMUX" oninput="up()"></div>
+      <div class="group"><label>Etiqueta Título</label><input type="text" id="i-et" value="🔧 CRIADO POR PEEK" oninput="up()"></div>
+      
+      <div class="group"><label>Título Linha 1</label><input type="text" id="i-t1" value="SCRIPT" oninput="up()"></div>
+      <div class="group"><label>Título Linha 2</label><input type="text" id="i-t2" value="NMAP" oninput="up()"></div>
+      <div class="group full"><label>Título Linha 3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="up()"></div>
+      <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
+      
+      <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 ANDROID" oninput="up()"></div>
+      <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 LINUX" oninput="up()"></div>
+      
+      <div class="group"><label>Terminal Header</label><input type="text" id="i-th" value="PEEK-SHELL" oninput="up()"></div>
+      <div class="group"><label>Terminal Comando</label><input type="text" id="i-tc" value="$ bash nmap_peek.sh" oninput="up()"></div>
+      <div class="group"><label>Terminal Log 1</label><input type="text" id="i-tl1" value="[SYSTEM] Initializing..." oninput="up()"></div>
+      <div class="group"><label>Terminal Log 2</label><input type="text" id="i-tl2" value="> Target: 192.168.1.1" oninput="up()"></div>
+      <div class="group full"><label>Terminal Status</label><input type="text" id="i-ts" value="[+] Vulnerability Found!" oninput="up()"></div>
+      
+      <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="⚡ SCRIPT PERSONALIZADO" oninput="up()"></div>
+      <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="🔍 SCANS AUTOMÁTICOS" oninput="up()"></div>
+      <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="🛡️ DETECÇÃO DE VULNS" oninput="up()"></div>
+      <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="📱 100% NO CELULAR" oninput="up()"></div>
+      
+      <div class="group full"><label>Aviso Rodapé</label><input type="text" id="i-fw" value="— USO ÉTICO E PROFISSIONAL —" oninput="up()"></div>
+      <div class="group full"><label>CTA Rodapé</label><input type="text" id="i-fc" value="BAIXE NA COMUNIDADE!" oninput="up()"></div>
+    </div>
+    <button class="btn-save" onclick="save()">BAIXAR THUMBNAIL (PNG)</button>
   </div>
 
-  <div class="grid">
-    <div class="group full"><label>URL Imagem Demo</label><input type="text" id="i-png" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" oninput="up()"></div>
-    
-    <div class="group"><label>Logo Parte 1</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
-    <div class="group"><label>Logo Parte 2</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
-    <div class="group"><label>Tag Superior Dir.</label><input type="text" id="i-tr" value=">_ TERMUX" oninput="up()"></div>
-    <div class="group"><label>Etiqueta Título</label><input type="text" id="i-et" value="🔧 CRIADO POR PEEK" oninput="up()"></div>
-    
-    <div class="group"><label>Título Linha 1</label><input type="text" id="i-t1" value="SCRIPT" oninput="up()"></div>
-    <div class="group"><label>Título Linha 2</label><input type="text" id="i-t2" value="NMAP" oninput="up()"></div>
-    <div class="group full"><label>Título Linha 3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="up()"></div>
-    <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
-    
-    <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 ANDROID" oninput="up()"></div>
-    <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 LINUX" oninput="up()"></div>
-    
-    <div class="group"><label>Terminal Header</label><input type="text" id="i-th" value="PEEK-SHELL" oninput="up()"></div>
-    <div class="group"><label>Terminal Comando</label><input type="text" id="i-tc" value="$ bash nmap_peek.sh" oninput="up()"></div>
-    <div class="group"><label>Terminal Log 1</label><input type="text" id="i-tl1" value="[SYSTEM] Initializing..." oninput="up()"></div>
-    <div class="group"><label>Terminal Log 2</label><input type="text" id="i-tl2" value="> Target: 192.168.1.1" oninput="up()"></div>
-    <div class="group full"><label>Terminal Status</label><input type="text" id="i-ts" value="[+] Vulnerability Found!" oninput="up()"></div>
-    
-    <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="⚡ SCRIPT PERSONALIZADO" oninput="up()"></div>
-    <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="🔍 SCANS AUTOMÁTICOS" oninput="up()"></div>
-    <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="🛡️ DETECÇÃO DE VULNS" oninput="up()"></div>
-    <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="📱 100% NO CELULAR" oninput="up()"></div>
-    
-    <div class="group full"><label>Aviso Rodapé</label><input type="text" id="i-fw" value="— USO ÉTICO E PROFISSIONAL —" oninput="up()"></div>
-    <div class="group full"><label>CTA Rodapé</label><input type="text" id="i-fc" value="BAIXE NA COMUNIDADE!" oninput="up()"></div>
-  </div>
-  <button class="btn-save" onclick="save()">BAIXAR THUMBNAIL (PNG)</button>
-</div>
+  <div class="wrapper">
+    <div id="thumbnail">
+      <div class="hacker-asset" id="o-asset-wrap"><img id="o-png" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" crossorigin="anonymous"></div>
+      <div class="scanline"></div>
+      <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
+      <div class="tag-tr" id="o-tr">>_ TERMUX</div>
+      
+      <div class="title-block">
+        <div class="label-peek" id="o-et">🔧 CRIADO POR PEEK</div>
+        <span class="t-l1" id="o-t1">SCRIPT</span>
+        <span class="t-l2" id="o-t2">NMAP</span>
+        <span class="t-l3" id="o-t3">NO TERMUX!</span>
+        <div class="sub-green" id="o-sub">AUTOMATIZE SEUS SCANS EM UM CLIQUE!</div>
+      </div>
 
-<div class="wrapper">
-  <div id="thumbnail">
-    <div class="hacker-asset" id="o-asset-wrap"><img id="o-png" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" crossorigin="anonymous"></div>
-    <div class="scanline"></div>
-    <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
-    <div class="tag-tr" id="o-tr">>_ TERMUX</div>
-    
-    <div class="title-block">
-      <div class="label-peek" id="o-et">🔧 CRIADO POR PEEK</div>
-      <span class="t-l1" id="o-t1">SCRIPT</span>
-      <span class="t-l2" id="o-t2">NMAP</span>
-      <span class="t-l3" id="o-t3">NO TERMUX!</span>
-      <div class="sub-green" id="o-sub">AUTOMATIZE SEUS SCANS EM UM CLIQUE!</div>
-    </div>
+      <div class="badges">
+        <div class="b-tag" id="o-bg1">🤖 ANDROID</div>
+        <div class="b-tag" id="o-bg2">🐧 LINUX</div>
+      </div>
 
-    <div class="badges">
-      <div class="b-tag" id="o-bg1">🤖 ANDROID</div>
-      <div class="b-tag" id="o-bg2">🐧 LINUX</div>
-    </div>
+      <div class="terminal">
+        <div class="term-h"><span id="o-th">PEEK-SHELL</span><span>● ● ●</span></div>
+        <div style="color:var(--green); margin-bottom:4px;" id="o-tc">$ bash nmap_peek.sh</div>
+        <div style="color:#666; font-size:8px;" id="o-tl1">[SYSTEM] Initializing...</div>
+        <div style="color:#aaa;" id="o-tl2">> Target: 192.168.1.1</div>
+        <div style="color:var(--acc)" id="o-ts">[+] Vulnerability Found!</div>
+        <div style="color:var(--green); border-top:1px solid #222; margin-top:auto; padding-top:4px;">[DONE] _</div>
+      </div>
 
-    <div class="terminal">
-      <div class="term-h"><span id="o-th">PEEK-SHELL</span><span>● ● ●</span></div>
-      <div style="color:var(--green); margin-bottom:4px;" id="o-tc">$ bash nmap_peek.sh</div>
-      <div style="color:#666; font-size:8px;" id="o-tl1">[SYSTEM] Initializing...</div>
-      <div style="color:#aaa;" id="o-tl2">> Target: 192.168.1.1</div>
-      <div style="color:var(--acc)" id="o-ts">[+] Vulnerability Found!</div>
-      <div style="color:var(--green); border-top:1px solid #222; margin-top:auto; padding-top:4px;">[DONE] _</div>
-    </div>
+      <div class="bullets">
+        <div class="bullet" id="o-b1">⚡ SCRIPT PERSONALIZADO</div>
+        <div class="bullet" id="o-b2">🔍 SCANS AUTOMÁTICOS</div>
+        <div class="bullet" id="o-b3">🛡️ DETECÇÃO DE VULNS</div>
+        <div class="bullet" id="o-b4">📱 100% NO CELULAR</div>
+      </div>
 
-    <div class="bullets">
-      <div class="bullet" id="o-b1">⚡ SCRIPT PERSONALIZADO</div>
-      <div class="bullet" id="o-b2">🔍 SCANS AUTOMÁTICOS</div>
-      <div class="bullet" id="o-b3">🛡️ DETECÇÃO DE VULNS</div>
-      <div class="bullet" id="o-b4">📱 100% NO CELULAR</div>
-    </div>
-
-    <div class="footer">
-      <div class="f-line"></div>
-      <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
-      <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
+      <div class="footer">
+        <div class="f-line"></div>
+        <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
+        <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
+      </div>
     </div>
   </div>
 </div>
