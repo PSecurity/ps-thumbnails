@@ -65,7 +65,7 @@ Aviso Rodapé e CTA Textos do rodapé
 
 ---
 
-🎨 Temas disponíveis
+## 🎨 Temas disponíveis
 
 Clique nos botões circulares coloridos no topo do painel:
 
@@ -78,7 +78,7 @@ O fundo da página muda automaticamente junto com o tema!
 
 ---
 
-🖥️ Layout responsivo
+## 🖥️ Layout responsivo
 
 · Desktop (≥1500px) – editor e thumbnail lado a lado, mesma altura (1280px)
 · Tablet / Telas médias (740px – 1499px) – blocos empilhados, cada um com 720px de largura
@@ -86,7 +86,7 @@ O fundo da página muda automaticamente junto com o tema!
 
 ---
 
-🧰 Personalização avançada
+## 🧰 Personalização avançada
 
 Quer mudar o tamanho da thumbnail?
 Edite as variáveis CSS no início do index.html:
@@ -102,7 +102,7 @@ Edite as variáveis CSS no início do index.html:
 
 ---
 
-📦 Estrutura do projeto
+## 📦 Estrutura do projeto
 
 ```
 ps-thumbnails/
@@ -114,7 +114,7 @@ ps-thumbnails/
 
 ---
 
-🧠 Tecnologias utilizadas
+## 🧠 Tecnologias utilizadas
 
 · HTML5
 · CSS3 (Flexbox, Grid, animações, variáveis)
@@ -123,9 +123,9 @@ ps-thumbnails/
 
 ---
 
-👤 Créditos
+## 👤 Créditos
 
-Desenvolvido por Gilberto (Peek Security)
+Desenvolvido por Gilberto Martins (Peek Security)
 
 · 🔗 GitHub
 · 🔗 TikTok
@@ -133,7 +133,7 @@ Desenvolvido por Gilberto (Peek Security)
 
 ---
 
-📄 Licença
+## 📄 Licença
 
 MIT – sinta-se à vontade para usar, modificar e distribuir.
 Só mantenha os créditos, combinado? 😉
