@@ -47,7 +47,7 @@ Sem Photoshop, sem apps pesados. **Apenas HTML, CSS e JavaScript puro.**
 
 ---
 
-🎛️ O que você pode editar?
+## 🎛️ O que você pode editar?
 
 Campo Descrição
 URL Imagem Demo Imagem de fundo (hacker asset)
