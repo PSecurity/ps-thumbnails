@@ -65,7 +65,7 @@ Aviso Rodapé e CTA Textos do rodapé
 
 ---
 
-## 🎨 Temas disponíveis
+🎨 Temas disponíveis
 
 Clique nos botões circulares coloridos no topo do painel:
 
