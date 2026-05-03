@@ -3,91 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peek Security - Editor Universal</title>
+<title>PEEK EDITOR - Controle Total</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  :root { --main: #7B2FBE; --acc: #9D4EDD; }
+  :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; }
 
-  /* PAINEL DE CONTROLE ULTRA-COMPLETO */
-  .controls { background: #151525; border: 1px solid var(--main); border-radius: 12px; padding: 20px; width: 480px; margin-bottom: 25px; box-shadow: 0 0 20px rgba(0,0,0,0.8); max-height: 50vh; overflow-y: auto; }
-  .controls h2 { font-family: 'Bebas Neue'; color: #39ff14; font-size: 24px; margin-bottom: 15px; text-align: center; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* PAINEL PEEK EDITOR */
+  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 500px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(123,47,190,0.2); max-height: 55vh; overflow-y: auto; }
+  .controls h2 { font-family: 'Bebas Neue'; color: var(--green); font-size: 28px; margin-bottom: 15px; text-align: center; letter-spacing: 2px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .group { margin-bottom: 8px; }
   .full { grid-column: span 2; }
-  label { display: block; font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 3px; }
-  input { width: 100%; background: #05050f; border: 1px solid #333; border-radius: 4px; padding: 8px; color: white; font-size: 12px; outline: none; }
-  input:focus { border-color: var(--acc); }
-  .btn-save { width: 100%; margin-top: 15px; padding: 12px; background: #39ff14; color: black; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 18px; cursor: pointer; font-weight: bold; }
+  label { display: block; font-size: 9px; color: #aaa; text-transform: uppercase; margin-bottom: 3px; font-weight: 900; }
+  input { width: 100%; background: #05050f; border: 1px solid #333; border-radius: 4px; padding: 8px; color: white; font-size: 12px; outline: none; border-left: 2px solid var(--main); }
+  input:focus { border-color: var(--green); }
+  .btn-save { width: 100%; margin-top: 15px; padding: 15px; background: var(--green); color: black; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+  .btn-save:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(57,255,20,0.4); }
 
-  /* THUMBNAIL STRUCTURE */
+  /* THUMBNAIL */
   .wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail { width: 420px; height: 745px; background: #05050f; position: relative; overflow: hidden; border: 1px solid #222; }
-  #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(123,47,190,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(123,47,190,0.05) 1px, transparent 1px); background-size: 25px 25px; }
+  #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(123,47,190,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(123,47,190,0.06) 1px, transparent 1px); background-size: 25px 25px; }
 
-  /* DINAMISMO DOS TEXTOS */
-  .header-main { position: absolute; top: 15px; left: 16px; display: flex; align-items: center; gap: 8px; z-index: 10; font-family: 'Bebas Neue'; font-size: 18px; letter-spacing: 2px; }
-  .header-main span { color: var(--acc); }
-  .tag-top-right { position: absolute; top: 15px; right: 16px; border: 1px solid var(--acc); padding: 2px 8px; font-family: 'Share Tech Mono'; font-size: 11px; color: var(--acc); background: rgba(0,0,0,0.5); z-index: 10; }
+  /* HEADER EDITÁVEL */
+  .header-main { position: absolute; top: 15px; left: 16px; display: flex; align-items: center; gap: 6px; z-index: 10; font-family: 'Bebas Neue'; font-size: 20px; }
+  .tag-tr { position: absolute; top: 15px; right: 16px; border: 1px solid var(--acc); padding: 2px 8px; font-family: 'Share Tech Mono'; font-size: 11px; color: var(--acc); background: rgba(0,0,0,0.6); z-index: 10; }
 
+  /* TÍTULO ÁREA */
   .title-block { position: absolute; top: 45px; left: 16px; right: 16px; z-index: 10; }
-  .label-peek { display: inline-block; background: var(--main); padding: 2px 10px; font-size: 11px; font-weight: 900; margin-bottom: 2px; }
-  .t-l1 { font-family: 'Bebas Neue'; font-size: 55px; line-height: 0.9; display: block; text-shadow: 2px 2px 0 black; }
-  .t-l2 { font-family: 'Bebas Neue'; font-size: 70px; line-height: 0.9; color: var(--acc); display: block; text-shadow: 2px 2px 0 black; }
-  .t-l3 { font-family: 'Bebas Neue'; font-size: 42px; line-height: 0.9; display: block; }
-  .sub-green { display: inline-block; margin-top: 8px; background: rgba(0,0,0,0.85); color: #39ff14; padding: 4px 10px; font-size: 12.5px; font-weight: 900; border-left: 3px solid #39ff14; }
+  .label-peek { display: inline-block; background: var(--main); padding: 2px 10px; font-size: 11px; font-weight: 900; margin-bottom: 4px; clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%); }
+  .t-l1 { font-family: 'Bebas Neue'; font-size: 58px; line-height: 0.9; display: block; text-shadow: 3px 3px 0 black; }
+  .t-l2 { font-family: 'Bebas Neue'; font-size: 75px; line-height: 0.9; color: var(--acc); display: block; text-shadow: 3px 3px 0 black; }
+  .t-l3 { font-family: 'Bebas Neue'; font-size: 45px; line-height: 0.9; display: block; }
+  .sub-green { display: inline-block; margin-top: 10px; background: rgba(0,0,0,0.9); color: var(--green); padding: 6px 12px; font-size: 13px; font-weight: 900; border-left: 4px solid var(--green); box-shadow: 5px 5px 15px rgba(0,0,0,0.5); }
 
-  .badges { position: absolute; top: 275px; left: 16px; display: flex; gap: 6px; z-index: 10; }
-  .b-tag { background: rgba(0,0,0,0.8); border: 1px solid var(--acc); padding: 3px 8px; font-size: 10px; font-weight: 900; color: #39ff14; border-radius: 3px; }
+  /* BADGES */
+  .badges { position: absolute; top: 285px; left: 16px; display: flex; gap: 8px; z-index: 10; }
+  .b-tag { background: rgba(0,0,0,0.8); border: 1px solid var(--acc); padding: 4px 10px; font-size: 11px; font-weight: 900; color: var(--green); border-radius: 4px; }
 
-  .terminal { position: absolute; top: 310px; right: 12px; width: 220px; background: rgba(5,5,15,0.95); border: 1px solid var(--main); border-radius: 6px; z-index: 10; padding: 8px; font-family: 'Share Tech Mono'; font-size: 9px; line-height: 1.4; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
-  .term-header { border-bottom: 1px solid rgba(123,47,190,0.3); padding-bottom: 4px; margin-bottom: 6px; color: var(--acc); }
+  /* TERMINAL */
+  .terminal { position: absolute; top: 320px; right: 12px; width: 225px; background: rgba(5,5,15,0.96); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 10px; font-family: 'Share Tech Mono'; font-size: 9px; line-height: 1.5; box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+  .term-h { color: var(--acc); border-bottom: 1px solid rgba(123,47,190,0.3); margin-bottom: 6px; padding-bottom: 2px; display: block; }
 
-  .bullets { position: absolute; top: 335px; left: 16px; z-index: 10; width: 190px; }
-  .bullet { background: rgba(0,0,0,0.7); border-left: 2px solid var(--acc); padding: 5px 8px; margin-bottom: 6px; font-size: 10px; font-weight: 900; border-radius: 2px; }
+  /* BULLETS */
+  .bullets { position: absolute; top: 345px; left: 16px; z-index: 10; width: 190px; }
+  .bullet { background: rgba(0,0,0,0.7); border-left: 3px solid var(--acc); padding: 6px 10px; margin-bottom: 8px; font-size: 11px; font-weight: 900; border-radius: 2px; display: flex; align-items: center; gap: 5px; }
 
-  .footer { position: absolute; bottom: 0; width: 100%; padding: 12px 16px; background: linear-gradient(to top, #000, transparent); z-index: 10; }
-  .footer-bar { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(123,47,190,0.3); padding-top: 8px; }
-  .footer-cta { font-family: 'Bebas Neue'; font-size: 14px; }
-  .footer-cta span { color: #39ff14; }
-  .footer-warn { font-size: 8px; color: #888; font-weight: bold; }
+  /* RODAPÉ RESTAURADO E CENTRALIZADO */
+  .footer { position: absolute; bottom: 0; width: 100%; height: 100px; background: linear-gradient(to top, #0a0015 40%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 15px; }
+  .footer-line { width: 90%; height: 1px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 10px; }
+  .footer-content { text-align: center; }
+  .f-warn { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; font-weight: bold; }
+  .f-cta { font-family: 'Bebas Neue'; font-size: 18px; color: white; letter-spacing: 1px; }
+  .f-cta span { color: var(--green); text-shadow: 0 0 10px rgba(57,255,20,0.5); }
+
+  /* EFEITOS DE BRILHO */
+  .glow { position: absolute; width: 250px; height: 250px; background: var(--main); filter: blur(80px); opacity: 0.2; z-index: 1; border-radius: 50%; }
+  .glow-1 { top: -50px; left: -50px; }
+  .glow-2 { bottom: -50px; right: -50px; }
 </style>
 </head>
 <body>
 
 <div class="controls">
-  <h2>🎛️ CONTROLE TOTAL DE TEXTO</h2>
+  <h2>🎛️ PEEK EDITOR</h2>
   <div class="grid">
-    <div class="group"><label>Marca (Branco)</label><input type="text" id="i-logo1" value="PEEK" oninput="run()"></div>
-    <div class="group"><label>Marca (Roxo)</label><input type="text" id="i-logo2" value="SECURITY" oninput="run()"></div>
-    <div class="group"><label>Tag Topo Direita</label><input type="text" id="i-top-r" value=">_ TERMUX" oninput="run()"></div>
-    <div class="group"><label>Etiqueta Superior</label><input type="text" id="i-label" value="🔧 CRIADO POR PEEK" oninput="run()"></div>
-    <div class="group"><label>Título L1</label><input type="text" id="i-t1" value="SCRIPT" oninput="run()"></div>
-    <div class="group"><label>Título L2</label><input type="text" id="i-t2" value="NMAP" oninput="run()"></div>
-    <div class="group full"><label>Título L3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="run()"></div>
-    <div class="group full"><label>Subtítulo Verde</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="run()"></div>
-    <div class="group"><label>Tag Badge 1</label><input type="text" id="i-bg1" value="🤖 TERMUX" oninput="run()"></div>
-    <div class="group"><label>Tag Badge 2</label><input type="text" id="i-bg2" value="🐧 KALI" oninput="run()"></div>
-    <div class="group"><label>Terminal Header</label><input type="text" id="i-tr-h" value="PEEK-CONSOLE" oninput="run()"></div>
-    <div class="group"><label>Terminal Linha 1</label><input type="text" id="i-tr-1" value="$ bash scan.sh" oninput="run()"></div>
-    <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="SCRIPT PERSONALIZADO" oninput="run()"></div>
-    <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="SCANS AUTOMÁTICOS" oninput="run()"></div>
-    <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="DETECÇÃO DE VULNS" oninput="run()"></div>
-    <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="100% NO CELULAR" oninput="run()"></div>
-    <div class="group"><label>Rodapé Aviso</label><input type="text" id="i-f-w" value="USO ÉTICO APENAS" oninput="run()"></div>
-    <div class="group"><label>Rodapé CTA</label><input type="text" id="i-f-c" value="BAIXE NA COMUNIDADE!" oninput="run()"></div>
+    <div class="group"><label>Logo Parte 1</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
+    <div class="group"><label>Logo Parte 2</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
+    <div class="group"><label>Tag Canto Sup.</label><input type="text" id="i-tr" value=">_ TERMUX" oninput="up()"></div>
+    <div class="group"><label>Etiqueta Tit.</label><input type="text" id="i-et" value="🔧 CRIADO POR PEEK" oninput="up()"></div>
+    <div class="group"><label>Título Linha 1</label><input type="text" id="i-t1" value="SCRIPT" oninput="up()"></div>
+    <div class="group"><label>Título Linha 2</label><input type="text" id="i-t2" value="NMAP" oninput="up()"></div>
+    <div class="group full"><label>Título Linha 3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="up()"></div>
+    <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
+    <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 TERMUX" oninput="up()"></div>
+    <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 KALI" oninput="up()"></div>
+    <div class="group"><label>Terminal Tit.</label><input type="text" id="i-trm-t" value="PEEK-CONSOLE" oninput="up()"></div>
+    <div class="group"><label>Terminal Cmd</label><input type="text" id="i-trm-c" value="$ bash scan.sh" oninput="up()"></div>
+    <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="SCRIPT PERSONALIZADO" oninput="up()"></div>
+    <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="SCANS AUTOMÁTICOS" oninput="up()"></div>
+    <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="DETECÇÃO DE VULNS" oninput="up()"></div>
+    <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="100% NO CELULAR" oninput="up()"></div>
+    <div class="group full"><label>Rodapé Aviso (Afastado)</label><input type="text" id="i-fw" value="— USO ÉTICO E PROFISSIONAL —" oninput="up()"></div>
+    <div class="group full"><label>Rodapé CTA (Destaque)</label><input type="text" id="i-fc" value="BAIXE NA COMUNIDADE!" oninput="up()"></div>
   </div>
-  <button class="btn-save" onclick="exportImg()">BAIXAR THUMBNAIL (PNG)</button>
+  <button class="btn-save" onclick="save()">BAIXAR THUMBNAIL (PNG)</button>
 </div>
 
 <div class="wrapper">
   <div id="thumbnail">
-    <div class="header-main"><span id="o-logo1">PEEK</span><span id="o-logo2" style="color:var(--acc)">SECURITY</span></div>
-    <div class="tag-top-right" id="o-top-r">>_ TERMUX</div>
+    <div class="glow glow-1"></div><div class="glow glow-2"></div>
+
+    <div class="header-main">
+      <span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span>
+    </div>
+    <div class="tag-tr" id="o-tr">>_ TERMUX</div>
 
     <div class="title-block">
-      <div class="label-peek" id="o-label">🔧 CRIADO POR PEEK</div>
+      <div class="label-peek" id="o-et">🔧 CRIADO POR PEEK</div>
       <span class="t-l1" id="o-t1">SCRIPT</span>
       <span class="t-l2" id="o-t2">NMAP</span>
       <span class="t-l3" id="o-t3">NO TERMUX!</span>
@@ -100,25 +115,26 @@
     </div>
 
     <div class="terminal">
-      <div class="term-header" id="o-tr-h">PEEK-CONSOLE</div>
-      <div style="color:#39ff14" id="o-tr-1">$ bash scan.sh</div>
+      <span class="term-h" id="o-trm-t">PEEK-CONSOLE</span>
+      <div style="color:var(--green)" id="o-trm-c">$ bash scan.sh</div>
       <div style="color:#666">--------------------</div>
-      <div style="color:#ccc">Target Found: 127.0.0.1</div>
-      <div style="color:#ff5f57">Exploiting...</div>
-      <div style="color:#39ff14">[DONE] <span style="background:#39ff14; width:5px; height:10px; display:inline-block"></span></div>
+      <div style="color:#ccc">> Analysing network...</div>
+      <div style="color:var(--acc)">> Port 80 found open.</div>
+      <div style="color:var(--green)">[SUCCESS] <span style="background:var(--green); width:6px; height:10px; display:inline-block"></span></div>
     </div>
 
     <div class="bullets">
-      <div class="bullet" id="o-b1">SCRIPT PERSONALIZADO</div>
-      <div class="bullet" id="o-b2">SCANS AUTOMÁTICOS</div>
-      <div class="bullet" id="o-b3">DETECÇÃO DE VULNS</div>
-      <div class="bullet" id="o-b4">100% NO CELULAR</div>
+      <div class="bullet">⚡ <span id="o-b1">SCRIPT PERSONALIZADO</span></div>
+      <div class="bullet">🔍 <span id="o-b2">SCANS AUTOMÁTICOS</span></div>
+      <div class="bullet">🛡️ <span id="o-b3">DETECÇÃO DE VULNS</span></div>
+      <div class="bullet">📱 <span id="o-b4">100% NO CELULAR</span></div>
     </div>
 
     <div class="footer">
-      <div class="footer-bar">
-        <div class="footer-warn" id="o-f-w">USO ÉTICO APENAS</div>
-        <div class="footer-cta" id="o-f-c">BAIXE NA <span>COMUNIDADE!</span></div>
+      <div class="footer-line"></div>
+      <div class="footer-content">
+        <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
+        <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
       </div>
     </div>
   </div>
@@ -126,25 +142,27 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  function run() {
-    const ids = [
-      'logo1','logo2','top-r','label','t1','t2','t3','sub','bg1','bg2','tr-h','tr-1','b1','b2','b3','b4','f-w','f-c'
+  function up() {
+    const map = [
+      ['l1','l1'],['l2','l2'],['tr','tr'],['et','et'],['t1','t1'],['t2','t2'],['t3','t3'],
+      ['sub','sub'],['bg1','bg1'],['bg2','bg2'],['trm-t','trm-t'],['trm-c','trm-c'],
+      ['b1','b1'],['b2','b2'],['b3','b3'],['b4','b4'],['fw','fw'],['fc','fc']
     ];
-    ids.forEach(id => {
-      const input = document.getElementById('i-' + id);
-      const output = document.getElementById('o-' + id);
-      if (id === 'f-c') {
-        output.innerHTML = input.value.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
+    map.forEach(([i, o]) => {
+      const val = document.getElementById('i-' + i).value;
+      const target = document.getElementById('o-' + o);
+      if(o === 'fc') {
+        target.innerHTML = val.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
       } else {
-        output.textContent = input.value;
+        target.textContent = val;
       }
     });
   }
 
-  async function exportImg() {
+  async function save() {
     const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3 });
     const link = document.createElement('a');
-    link.download = 'peek-security-thumb.png';
+    link.download = 'peek-editor-thumb.png';
     link.href = canvas.toDataURL();
     link.click();
   }
