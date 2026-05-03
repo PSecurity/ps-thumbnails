@@ -3,23 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peek Security - Thumbnail Studio Pro</title>
+<title>Peek Security - Thumbnail Studio (Restaurado)</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-  /* MANTENDO SEU CSS ORIGINAL COM PEQUENOS AJUSTES DE FLUXO */
+  /* CSS ORIGINAL PRESERVADO */
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0a0a0a;
+    background: #111;
     display: flex;
-    flex-direction: row; /* Coloca painel ao lado da thumb em telas largas */
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: center;
     min-height: 100vh;
     font-family: 'Barlow Condensed', sans-serif;
-    gap: 40px;
-    padding: 40px;
-    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
   }
 
   .controls {
@@ -27,169 +26,103 @@
     border: 1px solid #7B2FBE;
     border-radius: 12px;
     padding: 20px;
-    width: 420px;
+    width: 400px;
     color: white;
     max-height: 90vh;
-    overflow-y: auto; /* Scroll caso a lista de opções cresça */
+    overflow-y: auto;
   }
 
-  .controls h2 {
-    font-family: 'Bebas Neue', cursive;
-    color: #9D4EDD;
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    border-bottom: 1px solid #7B2FBE55;
-    padding-bottom: 10px;
-  }
-
-  .ctrl-section {
-    margin-bottom: 20px;
-    padding: 10px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 8px;
-  }
-
-  .ctrl-section-title {
-    font-size: 10px;
-    color: #9D4EDD;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  .ctrl-group { margin-bottom: 12px; }
-  .ctrl-group label {
-    display: block;
-    font-size: 11px;
-    color: #aaa;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
+  .controls h2 { font-family: 'Bebas Neue'; color: #9D4EDD; margin-bottom: 15px; }
+  .ctrl-group { margin-bottom: 10px; }
+  .ctrl-group label { display: block; font-size: 10px; color: #aaa; text-transform: uppercase; margin-bottom: 2px; }
   .ctrl-group input {
-    width: 100%;
-    background: #0d0d1a;
-    border: 1px solid #7B2FBE55;
-    border-radius: 6px;
-    padding: 8px 10px;
-    color: white;
-    font-family: 'Barlow Condensed', sans-serif;
-    outline: none;
+    width: 100%; background: #0d0d1a; border: 1px solid #7B2FBE55; border-radius: 6px;
+    padding: 6px 10px; color: white; font-size: 13px; outline: none;
   }
 
   .btn-export {
-    width: 100%;
-    padding: 15px;
+    width: 100%; margin-top: 15px; padding: 12px;
     background: linear-gradient(135deg, #7B2FBE, #5a0fa0);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-family: 'Bebas Neue', cursive;
-    font-size: 20px;
-    cursor: pointer;
-    transition: 0.2s;
+    border: none; border-radius: 8px; color: white;
+    font-family: 'Bebas Neue'; font-size: 18px; cursor: pointer;
   }
 
-  /* ===== ESTILOS DA THUMBNAIL (OS SEUS ORIGINAIS) ===== */
+  /* ===== THUMBNAIL ENGINE (ESTÉTICA ORIGINAL) ===== */
   .thumb-wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail {
-    width: 420px; height: 745px;
-    background: #05050f;
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
+    width: 420px; height: 745px; background: #05050f;
+    position: relative; overflow: hidden; border-radius: 8px;
   }
 
   #thumbnail::before {
     content: ''; position: absolute; inset: 0;
     background-image: linear-gradient(rgba(123,47,190,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(123,47,190,0.08) 1px, transparent 1px);
-    background-size: 30px 30px;
+    background-size: 30px 30px; z-index: 0;
   }
 
-  .corner-glow { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); }
+  .corner-glow { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); z-index: 0; }
   .glow-tl { top: -60px; left: -60px; background: rgba(123,47,190,0.35); }
   .glow-br { bottom: -60px; right: -60px; background: rgba(123,47,190,0.25); }
 
   .thumb-header { position: absolute; top: 14px; left: 16px; display: flex; align-items: center; gap: 8px; z-index: 10; }
-  .logo-text { font-family: 'Bebas Neue', cursive; font-size: 18px; letter-spacing: 3px; color: white; }
+  .logo-text { font-family: 'Bebas Neue'; font-size: 18px; letter-spacing: 3px; color: white; }
   .logo-text span { color: #9D4EDD; }
 
-  .tag-termux { position: absolute; top: 14px; right: 16px; background: rgba(0,0,0,0.6); border: 1px solid #9D4EDD; border-radius: 4px; padding: 3px 8px; font-family: 'Share Tech Mono'; font-size: 11px; color: #9D4EDD; z-index: 10; }
-
-  .thumb-title-area { position: absolute; top: 56px; left: 16px; right: 16px; z-index: 10; }
-  .label-script { display: inline-block; background: #7B2FBE; padding: 2px 10px; font-size: 12px; color: white; text-transform: uppercase; clip-path: polygon(0 0, 100% 0, 97% 100%, 0% 100%); }
-  
-  .title-line1 { font-family: 'Bebas Neue'; font-size: 58px; line-height: 0.95; color: white; display: block; }
-  .title-line2 { font-family: 'Bebas Neue'; font-size: 72px; line-height: 0.9; color: #9D4EDD; display: block; text-shadow: 0 0 30px rgba(157,78,221,0.6); }
-  .title-line3 { font-family: 'Bebas Neue'; font-size: 44px; line-height: 0.95; color: white; display: block; }
-  .title-sub { display: inline-block; margin-top: 4px; background: rgba(0,0,0,0.8); padding: 4px 10px; font-size: 13px; color: #39ff14; text-transform: uppercase; }
-
-  .terminal-block { position: absolute; top: 295px; right: 12px; width: 220px; background: rgba(0,0,0,0.92); border: 1px solid #7B2FBE; border-radius: 8px; overflow: hidden; z-index: 10; }
-  .term-bar { background: #1a0a2e; padding: 5px; display: flex; align-items: center; gap: 5px; }
-  .term-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .term-dot.r { background: #ff5f57; }
-  .term-body { padding: 8px; font-family: 'Share Tech Mono'; font-size: 9px; color: #ccc; }
-
-  .bullets-area { position: absolute; top: 310px; left: 14px; width: 195px; z-index: 10; }
-  .bullet-item { display: flex; gap: 7px; margin-bottom: 7px; background: rgba(0,0,0,0.6); border-left: 2px solid #9D4EDD; padding: 5px; }
-  
-  .platforms-badge { position: absolute; top: 260px; left: 14px; display: flex; gap: 6px; z-index: 10; }
-  .platform-tag { background: rgba(0,0,0,0.7); border: 1px solid #9D4EDD; border-radius: 4px; padding: 3px 8px; font-size: 11px; color: #39ff14; }
-
-  .thumb-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; background: linear-gradient(0deg, #0a0015 0%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; }
-  .footer-bar { background: rgba(123,47,190,0.2); padding: 7px 16px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-cta { font-family: 'Bebas Neue'; font-size: 15px; color: white; }
-  .footer-cta span { color: #39ff14; }
-
+  /* TIKTOK & TAGS */
   .tiktok-badge { position: absolute; top: 54px; right: 16px; display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.6); border: 1px solid #ffffff33; border-radius: 4px; padding: 3px 7px; z-index: 10; }
   .tiktok-badge svg { width: 12px; height: 12px; }
+  .tag-termux { position: absolute; top: 14px; right: 16px; background: rgba(0,0,0,0.6); border: 1px solid #9D4EDD; border-radius: 4px; padding: 3px 8px; font-family: 'Share Tech Mono'; font-size: 11px; color: #9D4EDD; z-index: 10; }
+
+  /* TÍTULOS */
+  .thumb-title-area { position: absolute; top: 56px; left: 16px; right: 16px; z-index: 10; }
+  .label-script { display: inline-block; background: #7B2FBE; padding: 2px 10px; font-size: 12px; color: white; text-transform: uppercase; clip-path: polygon(0 0, 100% 0, 97% 100%, 0% 100%); }
+  .title-line1 { font-family: 'Bebas Neue'; font-size: 58px; line-height: 0.95; color: white; display: block; }
+  .title-line2 { font-family: 'Bebas Neue'; font-size: 72px; line-height: 0.9; color: #9D4EDD; display: block; text-shadow: 0 0 30px rgba(157,78,221,0.6); }
+  .title-sub { display: inline-block; margin-top: 4px; background: rgba(0,0,0,0.85); padding: 4px 10px; font-size: 13px; color: #39ff14; text-transform: uppercase; }
+
+  /* TERMINAL RESTAURADO */
+  .terminal-block { position: absolute; top: 295px; right: 12px; width: 220px; background: rgba(0,0,0,0.92); border: 1px solid #7B2FBE; border-radius: 8px; overflow: hidden; z-index: 10; }
+  .term-bar { background: #1a0a2e; padding: 5px 8px; display: flex; align-items: center; gap: 5px; }
+  .term-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .term-dot.r { background: #ff5f57; }
+  .term-body { padding: 8px; font-family: 'Share Tech Mono'; font-size: 9px; line-height: 1.6; color: #ccc; }
+  .cursor { display: inline-block; width: 6px; height: 11px; background: #39ff14; animation: blink 1s infinite; vertical-align: middle; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* SILHUETA HACKER RESTAURADA */
+  .hacker-silhouette { position: absolute; bottom: 155px; left: 0px; width: 180px; height: 220px; z-index: 6; }
+
+  /* EFEITO SCANLINE */
+  #thumbnail::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 20;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  }
+
+  /* BULLETS E RODAPÉ */
+  .bullets-area { position: absolute; top: 310px; left: 14px; width: 195px; z-index: 10; }
+  .bullet-item { display: flex; gap: 7px; margin-bottom: 7px; background: rgba(0,0,0,0.6); border-left: 2px solid #9D4EDD; padding: 5px 8px; }
+  .thumb-footer { position: absolute; bottom: 0; left: 0; right: 0; height: 90px; background: linear-gradient(0deg, #0a0015 0%, transparent 100%); z-index: 10; display: flex; flex-direction: column; justify-content: flex-end; }
+  .footer-bar { background: rgba(123,47,190,0.2); padding: 7px 16px; display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
 
 <div class="controls">
-  <h2>⚙ PERSONALIZAÇÃO COMPLETA</h2>
-
-  <div class="ctrl-section">
-    <div class="ctrl-section-title">Marca e Cabeçalho</div>
-    <div class="ctrl-group">
-      <label>Nome da Logo (Branco)</label>
-      <input type="text" id="logo1" value="PEEK" oninput="update()">
-    </div>
-    <div class="ctrl-group">
-      <label>Destaque da Logo (Roxo)</label>
-      <input type="text" id="logo2" value="SECURITY" oninput="update()">
-    </div>
-    <div class="ctrl-group">
-      <label>User do TikTok</label>
-      <input type="text" id="tiktok" value="@PEEKSEC" oninput="update()">
-    </div>
-  </div>
-
-  <div class="ctrl-section">
-    <div class="ctrl-section-title">Título Principal</div>
-    <div class="ctrl-group">
-      <label>Etiqueta Superior</label>
-      <input type="text" id="lab" value="NEW SCRIPT" oninput="update()">
-    </div>
-    <div class="ctrl-group"><input type="text" id="t1" value="SCRIPT" oninput="update()"></div>
-    <div class="ctrl-group"><input type="text" id="t2" value="NMAP" oninput="update()"></div>
-    <div class="ctrl-group"><input type="text" id="t3" value="NO TERMUX!" oninput="update()"></div>
-    <div class="ctrl-group"><label>Subtítulo (Verde)</label><input type="text" id="tsub" value="AUTOMATIZE SEUS SCANS COM UM CLIQUE!" oninput="update()"></div>
-  </div>
-
-  <div class="ctrl-section">
-    <div class="ctrl-section-title">Lista de Benefícios</div>
-    <div class="ctrl-group"><input type="text" id="b1" value="SCRIPT PERSONALIZADO" oninput="update()"></div>
-    <div class="ctrl-group"><input type="text" id="b2" value="SCANS AUTOMÁTICOS" oninput="update()"></div>
-    <div class="ctrl-group"><input type="text" id="b3" value="DETECÇÃO DE VULNS" oninput="update()"></div>
-    <div class="ctrl-group"><input type="text" id="b4" value="100% NO CELULAR" oninput="update()"></div>
-  </div>
-
-  <div class="ctrl-group">
-    <label>Chamada no Rodapé</label>
-    <input type="text" id="footer" value="CÓDIGO DISPONÍVEL NO GITHUB!" oninput="update()">
-  </div>
+  <h2>⚙ EDITOR PEEK SECURITY</h2>
+  
+  <div class="ctrl-group"><label>Logo Nome</label><input type="text" id="logo1" value="PEEK" oninput="update()"></div>
+  <div class="ctrl-group"><label>Logo Destaque</label><input type="text" id="logo2" value="SECURITY" oninput="update()"></div>
+  <div class="ctrl-group"><label>TikTok User</label><input type="text" id="tiktok" value="@PEEKSEC" oninput="update()"></div>
+  <hr style="border: 0; border-top: 1px solid #7B2FBE33; margin: 15px 0;">
+  <div class="ctrl-group"><label>Tag Superior</label><input type="text" id="lab" value="SCRIPT" oninput="update()"></div>
+  <div class="ctrl-group"><label>Título L1</label><input type="text" id="t1" value="SCRIPT" oninput="update()"></div>
+  <div class="ctrl-group"><label>Título L2</label><input type="text" id="t2" value="NMAP" oninput="update()"></div>
+  <div class="ctrl-group"><label>Título L3</label><input type="text" id="t3" value="NO TERMUX!" oninput="update()"></div>
+  <div class="ctrl-group"><label>Subtítulo (Verde)</label><input type="text" id="tsub" value="AUTOMATIZE SEUS SCANS COM UM CLIQUE!" oninput="update()"></div>
+  <div class="ctrl-group"><label>Bullet 1</label><input type="text" id="b1" value="SCRIPT PERSONALIZADO" oninput="update()"></div>
+  <div class="ctrl-group"><label>Bullet 2</label><input type="text" id="b2" value="SCANS AUTOMÁTICOS" oninput="update()"></div>
+  <div class="ctrl-group"><label>Bullet 3</label><input type="text" id="b3" value="DETECÇÃO DE VULNS" oninput="update()"></div>
+  <div class="ctrl-group"><label>Rodapé CTA</label><input type="text" id="footer" value="CÓDIGO DISPONÍVEL NO GITHUB!" oninput="update()"></div>
 
   <button class="btn-export" onclick="exportPNG()">⬇ EXPORTAR PNG</button>
 </div>
@@ -204,7 +137,7 @@
         <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" fill="#7B2FBE" stroke="#9D4EDD" stroke-width="1"/>
         <text x="16" y="21" text-anchor="middle" font-size="14" fill="white">👁</text>
       </svg>
-      <div class="logo-text"><span id="el-logo1" style="color:white">PEEK</span><span id="el-logo2">SECURITY</span></div>
+      <div class="logo-text"><span id="el-logo1">PEEK</span><span id="el-logo2" style="color:#9D4EDD">SECURITY</span></div>
     </div>
 
     <div class="tag-termux">&gt;_ Termux</div>
@@ -215,28 +148,43 @@
     </div>
 
     <div class="thumb-title-area">
-      <div class="label-script" id="el-lab">NEW SCRIPT</div>
+      <div class="label-script" id="el-lab">SCRIPT</div>
       <span class="title-line1" id="el-t1">SCRIPT</span>
       <span class="title-line2" id="el-t2">NMAP</span>
       <span class="title-line3" id="el-t3">NO TERMUX!</span>
       <div class="title-sub" id="el-tsub">AUTOMATIZE SEUS SCANS COM UM CLIQUE!</div>
     </div>
 
-    <div class="platforms-badge">
-      <div class="platform-tag">🤖 ANDROID</div>
-      <div class="platform-tag">🐧 LINUX</div>
+    <div class="hacker-silhouette">
+      <svg viewBox="0 0 180 220" fill="none">
+        <ellipse cx="90" cy="55" rx="45" ry="50" fill="#0d0020" stroke="#7B2FBE" stroke-width="1" opacity="0.9"/>
+        <ellipse cx="76" cy="58" rx="7" ry="4" fill="#9D4EDD" opacity="0.9"/>
+        <ellipse cx="104" cy="58" rx="7" ry="4" fill="#9D4EDD" opacity="0.9"/>
+        <path d="M 45 105 Q 45 90 90 88 Q 135 90 135 105 L 145 200 L 35 200 Z" fill="#0a0018" stroke="#7B2FBE33" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <div class="terminal-block">
+      <div class="term-bar">
+        <div class="term-dot r"></div><span style="font-size:8px; color:#9D4EDD; font-family:monospace">TERMINAL</span>
+      </div>
+      <div class="term-body">
+        <div><span style="color:#39ff14">$ bash peek_nmap.sh</span></div>
+        <div style="color:#39ff14">[✓] Scanning...</div>
+        <div style="color:#ff5f57">VULN FOUND: CVE-42...</div>
+        <div>~ $ <span class="cursor"></span></div>
+      </div>
     </div>
 
     <div class="bullets-area">
-      <div class="bullet-item"><span id="el-b1" style="color:white; font-size:11px; font-weight:900;">SCRIPT PERSONALIZADO</span></div>
-      <div class="bullet-item"><span id="el-b2" style="color:white; font-size:11px; font-weight:900;">SCANS AUTOMÁTICOS</span></div>
-      <div class="bullet-item"><span id="el-b3" style="color:white; font-size:11px; font-weight:900;">DETECÇÃO DE VULNS</span></div>
-      <div class="bullet-item"><span id="el-b4" style="color:white; font-size:11px; font-weight:900;">100% NO CELULAR</span></div>
+      <div class="bullet-item"><span id="el-b1" style="color:white; font-size:11px; font-weight:bold;">SCRIPT PERSONALIZADO</span></div>
+      <div class="bullet-item"><span id="el-b2" style="color:white; font-size:11px; font-weight:bold;">SCANS AUTOMÁTICOS</span></div>
+      <div class="bullet-item"><span id="el-b3" style="color:white; font-size:11px; font-weight:bold;">DETECÇÃO DE VULNS</span></div>
     </div>
 
     <div class="thumb-footer">
       <div class="footer-bar">
-        <div class="footer-cta" id="el-footer">CÓDIGO DISPONÍVEL NO <span>GITHUB!</span></div>
+        <div class="footer-cta" id="el-footer" style="font-family:'Bebas Neue'; color:white">CÓDIGO DISPONÍVEL NO <span>GITHUB!</span></div>
       </div>
     </div>
   </div>
@@ -245,23 +193,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
   function update() {
-    // Lista de todos os IDs de input e seus respectivos elementos na thumb
-    const fields = ['logo1', 'logo2', 'tiktok', 'lab', 't1', 't2', 't3', 'tsub', 'b1', 'b2', 'b3', 'b4', 'footer'];
-    
-    fields.forEach(id => {
-      const inputVal = document.getElementById(id).value;
-      const displayEl = document.getElementById('el-' + id);
-      if (displayEl) {
-        displayEl.textContent = inputVal;
-      }
+    const ids = ['logo1','logo2','tiktok','lab','t1','t2','t3','tsub','b1','b2','b3','footer'];
+    ids.forEach(id => {
+      const input = document.getElementById(id);
+      const display = document.getElementById('el-' + id);
+      if (display) display.textContent = input.value;
     });
   }
-
   async function exportPNG() {
     const thumb = document.getElementById('thumbnail');
     const canvas = await html2canvas(thumb, { scale: 3 });
     const link = document.createElement('a');
-    link.download = 'custom-thumbnail.png';
+    link.download = 'peek-security-thumb.png';
     link.href = canvas.toDataURL();
     link.click();
   }
