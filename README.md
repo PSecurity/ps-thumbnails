@@ -1,4 +1,3 @@
-```markdown
 # 🎨 ps.editor v2.0 – Thumbnail Engine para TikTok & Redes
 
 ![version](https://img.shields.io/badge/version-2.0-purple?style=flat-square)
