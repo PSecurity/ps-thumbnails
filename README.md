@@ -35,6 +35,7 @@ Sem Photoshop, sem apps pesados. **Apenas HTML, CSS e JavaScript puro.**
 ## 🚀 Como usar
 
 1. **Clone o repositório**
+
    ```bash
    git clone https://github.com/PSecurity/ps-thumbnails.git
    cd ps-thumbnails
@@ -44,6 +45,7 @@ Sem Photoshop, sem apps pesados. **Apenas HTML, CSS e JavaScript puro.**
    · No Termux: python3 -m http.server 8080 e acesse http://localhost:8080
 2. Edite os campos – todos os textos da thumbnail alteram em tempo real
 3. Clique em "BAIXAR THUMBNAIL (PNG)" – a imagem será salva na sua pasta de downloads
+```
 
 ---
 
