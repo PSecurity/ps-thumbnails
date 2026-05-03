@@ -65,13 +65,16 @@ Aviso Rodapé e CTA Textos do rodapé
 
 ---
 
-🎨 Temas disponíveis
+## 🎨 Temas disponíveis
 
 Clique nos botões circulares coloridos no topo do painel:
 
 · 🟣 Roxo (padrão – Peek Security)
+
 · 🟢 Verde (estilo Matrix)
+
 · 🔴 Vermelho (alerta total)
+
 · 🔵 Azul (modo noturno/blue team)
 
 O fundo da página muda automaticamente junto com o tema!
