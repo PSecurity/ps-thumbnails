@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ps.editor - Full Thematic Pro</title>
+<title>ps.editor - v1.2 Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; --bg: #05050f; }
@@ -49,8 +49,8 @@
   .badges { position: absolute; top: 310px; left: 20px; display: flex; gap: 8px; z-index: 10; }
   .b-tag { background: #000; border: 1.5px solid var(--acc); padding: 5px 12px; font-size: 12px; font-weight: 900; color: var(--green); border-radius: 4px; }
 
-  .terminal { position: absolute; top: 345px; right: 15px; width: 230px; height: 160px; background: rgba(2,2,8,0.98); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 12px; font-family: 'Share Tech Mono'; font-size: 10px; line-height: 1.4; box-shadow: 0 0 25px rgba(0,0,0,0.9); }
-  .term-h { color: var(--acc); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; padding-bottom: 4px; display: flex; justify-content: space-between; }
+  .terminal { position: absolute; top: 345px; right: 15px; width: 230px; height: 160px; background: rgba(2,2,8,0.98); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 12px; font-family: 'Share Tech Mono'; font-size: 10px; line-height: 1.4; box-shadow: 0 0 25px rgba(0,0,0,0.9); display: flex; flex-direction: column; }
+  .term-h { color: var(--acc); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; padding-bottom: 4px; display: flex; justify-content: space-between; flex-shrink: 0; }
 
   .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
   .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; display: flex; align-items: center; gap: 8px; }
@@ -89,8 +89,13 @@
     <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
     <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 ANDROID" oninput="up()"></div>
     <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 LINUX" oninput="up()"></div>
+    
     <div class="group"><label>Terminal Tit.</label><input type="text" id="i-trm-h" value="PEEK-SHELL" oninput="up()"></div>
-    <div class="group"><label>Terminal Cmd</label><input type="text" id="i-trm-c" value="$ bash nmap_peek.sh" oninput="up()"></div>
+    <div class="group"><label>Linha 1: Comando</label><input type="text" id="i-trm-c" value="$ bash nmap_peek.sh" oninput="up()"></div>
+    <div class="group"><label>Linha 2: Log</label><input type="text" id="i-trm-l1" value="[SYSTEM] Initializing..." oninput="up()"></div>
+    <div class="group"><label>Linha 3: Log</label><input type="text" id="i-trm-l2" value="> Target: 192.168.1.1" oninput="up()"></div>
+    <div class="group full"><label>Linha 4: Status</label><input type="text" id="i-trm-st" value="[+] Vulnerability Found!" oninput="up()"></div>
+
     <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="⚡ SCRIPT PERSONALIZADO" oninput="up()"></div>
     <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="🔍 SCANS AUTOMÁTICOS" oninput="up()"></div>
     <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="🛡️ DETECÇÃO DE VULNS" oninput="up()"></div>
@@ -118,13 +123,16 @@
       <div class="b-tag" id="o-bg1">🤖 ANDROID</div>
       <div class="b-tag" id="o-bg2">🐧 LINUX</div>
     </div>
+
     <div class="terminal">
       <div class="term-h"><span id="o-trm-h">PEEK-SHELL</span><span>● ● ●</span></div>
       <div style="color:var(--green); margin-bottom:4px;" id="o-trm-c">$ bash nmap_peek.sh</div>
-      <div style="color:#666; font-size:8px;">[SYSTEM] Engine initialized...</div>
-      <div style="color:var(--acc)">[+] Vulnerability Found</div>
-      <div style="color:var(--green); border-top:1px solid #222; margin-top:5px; padding-top:5px;">[DONE] _</div>
+      <div style="color:#666; font-size:8px;" id="o-trm-l1">[SYSTEM] Initializing...</div>
+      <div style="color:#aaa;" id="o-trm-l2">> Target: 192.168.1.1</div>
+      <div style="color:var(--acc)" id="o-trm-st">[+] Vulnerability Found!</div>
+      <div style="color:var(--green); border-top:1px solid #222; margin-top:auto; padding-top:4px;">[DONE] _</div>
     </div>
+
     <div class="bullets">
       <div class="bullet"><span id="o-b1">⚡ SCRIPT PERSONALIZADO</span></div>
       <div class="bullet"><span id="o-b2">🔍 SCANS AUTOMÁTICOS</span></div>
@@ -143,21 +151,25 @@
 <script>
   function setTheme(theme) { document.body.className = theme; }
   function up() {
-    const fields = ['l1','l2','tr','et','t1','t2','t3','sub','bg1','bg2','trm-h','trm-c','b1','b2','b3','b4','fw','fc'];
+    // Lista atualizada com os novos IDs do terminal
+    const fields = ['l1','l2','tr','et','t1','t2','t3','sub','bg1','bg2','trm-h','trm-c','trm-l1','trm-l2','trm-st','b1','b2','b3','b4','fw','fc'];
     fields.forEach(f => {
-      const val = document.getElementById('i-' + f).value;
-      const out = document.getElementById('o-' + f);
-      if(f === 'fc') {
-        out.innerHTML = val.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
-      } else {
-        out.textContent = val;
+      const elInput = document.getElementById('i-' + f);
+      const elOutput = document.getElementById('o-' + f);
+      if (elInput && elOutput) {
+        const val = elInput.value;
+        if(f === 'fc') {
+          elOutput.innerHTML = val.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
+        } else {
+          elOutput.textContent = val;
+        }
       }
     });
   }
   async function save() {
     const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3 });
     const link = document.createElement('a');
-    link.download = 'ps-editor-v1-1.png';
+    link.download = 'ps-editor-v1-2.png';
     link.href = canvas.toDataURL();
     link.click();
   }
