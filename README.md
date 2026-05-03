@@ -132,9 +132,9 @@ ps-thumbnails/
 
 Desenvolvido por Gilberto Martins (Peek Security)
 
-· 🔗 GitHub
-· 🔗 TikTok
-· 🔗 Blog
+· 🔗 GitHub (https://github.com/PSecurity)
+· 🔗 TikTok https://www.tiktok.com/@peeksecurity
+· 🔗 Blog 
 
 ---
 
