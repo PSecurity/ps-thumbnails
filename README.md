@@ -40,6 +40,7 @@ O editor permite a simulação total de um ambiente de shell. Você pode customi
 <img src="https://img.shields.io/badge/DEVELOPED_BY-PEEK_SECURITY-7B2FBE?style=for-the-badge&logo=hackthebox&logoColor=white" />
 <img src="https://img.shields.io/badge/VERSION-2.0_STABLE-green?style=for-the-badge&logo=linux&logoColor=white" />
 </p>
+
 ```text
 [EOF] - CONSTRUÍDO PELA COMUNIDADE PEEKSECURITY
 ----------------------------------------------
