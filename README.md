@@ -134,7 +134,7 @@ Desenvolvido por Gilberto Martins (Peek Security)
 
 · 🔗 GitHub (https://github.com/PSecurity)
 
-· 🔗 TikTok (https://www.tiktok.com/@peeksecurity)
+· 🔗 TikTok (https://tiktok.com/@peeksecurity)
 
 · 🔗 Blog (https://psecurity.github.io/PSecurity/)
 
