@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ps.editor - v1.5 Master</title>
+<title>ps.editor - v1.6 Ultra</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; --bg: #05050f; }
@@ -16,8 +16,9 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; }
 
+  /* PAINEL DINÂMICO */
   .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 550px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 60vh; overflow-y: auto; transition: 0.3s; }
-  .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; transition: 0.3s color; }
+  .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
   
   .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; background: #0a0a15; padding: 12px; border-radius: 8px; border: 1px solid #333; }
   .t-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; transition: 0.2s; }
@@ -30,20 +31,20 @@
 
   .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; font-weight: bold; transition: 0.3s all; }
 
-  /* THUMBNAIL */
+  /* THUMBNAIL ENGINE */
   .wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
 
-  /* ASSET PNG POSICIONADO */
+  /* MÁSCARA HACKER COM FILTRO DE COR */
   .hacker-asset { 
     position: absolute; 
-    top: -20px; 
-    right: -20px; 
-    width: 320px; 
+    top: -10px; 
+    right: -30px; 
+    width: 350px; 
     z-index: 5; 
     pointer-events: none;
     filter: drop-shadow(0 0 15px var(--main));
-    transition: 0.5s all;
+    transition: 0.5s all ease-in-out;
   }
   .hacker-asset img { width: 100%; height: auto; display: block; }
 
@@ -61,16 +62,13 @@
   .t-l3 { font-family: 'Bebas Neue'; font-size: 48px; line-height: 0.85; display: block; margin-top: 5px; }
   .sub-green { display: inline-block; margin-top: 15px; background: #000; color: var(--green); padding: 8px 15px; font-size: 14px; font-weight: 900; border-left: 5px solid var(--green); text-transform: uppercase; }
 
-  .badges { position: absolute; top: 310px; left: 20px; display: flex; gap: 8px; z-index: 10; }
-  .b-tag { background: #000; border: 1.5px solid var(--acc); padding: 5px 12px; font-size: 12px; font-weight: 900; color: var(--green); border-radius: 4px; }
-
   .terminal { position: absolute; top: 345px; right: 15px; width: 230px; height: 160px; background: rgba(2,2,8,0.98); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 12px; font-family: 'Share Tech Mono'; font-size: 10px; line-height: 1.4; box-shadow: 0 0 25px rgba(0,0,0,0.9); display: flex; flex-direction: column; }
   .term-h { color: var(--acc); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; padding-bottom: 4px; display: flex; justify-content: space-between; }
 
   .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
   .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; display: flex; align-items: center; gap: 8px; }
 
-  /* RODAPÉ SINCRONIZADO COM O TEMA */
+  /* RODAPÉ SINCRONIZADO COM ROXO PADRÃO */
   .footer { position: absolute; bottom: 0; width: 100%; height: 140px; background: linear-gradient(to top, #000 60%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); transition: 0.3s all; }
   .f-warn { font-size: 11px; color: #ccc; letter-spacing: 4px; margin-bottom: 8px; font-weight: 900; }
@@ -91,8 +89,8 @@
   </div>
 
   <div class="grid">
-    <div class="group full"><label>URL do PNG (Canto Superior)</label><input type="text" id="i-png" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" oninput="up()"></div>
-    <div class="group full"><label>Opacidade do Asset</label><input type="text" id="i-op" value="0.7" oninput="up()"></div>
+    <div class="group full"><label>URL do PNG (Máscara Hacker)</label><input type="text" id="i-png" value="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png" oninput="up()"></div>
+    <div class="group full"><label>Opacidade</label><input type="text" id="i-op" value="0.7" oninput="up()"></div>
     
     <div class="group"><label>Logo Nome</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
     <div class="group"><label>Logo Sub</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
@@ -121,9 +119,10 @@
 
 <div class="wrapper">
   <div id="thumbnail">
-    <div class="hacker-asset" id="o-asset-wrap">
-      <img id="o-png" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png">
+    <div class="hacker-asset" id="o-asset-wrap" style="opacity: 0.7;">
+      <img id="o-png" src="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png">
     </div>
+
     <div class="scanline"></div>
     <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
     <div class="tag-tr" id="o-tr">>_ TERMUX</div>
@@ -164,8 +163,10 @@
 <script>
   function setTheme(theme) { document.body.className = theme; up(); }
   function up() {
-    document.getElementById('o-png').src = document.getElementById('i-png').value;
+    const pngUrl = document.getElementById('i-png').value;
+    document.getElementById('o-png').src = pngUrl;
     document.getElementById('o-asset-wrap').style.opacity = document.getElementById('i-op').value;
+
     const fields = ['l1','l2','tr','et','t1','t2','t3','sub','bg1','bg2','trm-h','trm-c','trm-l1','trm-l2','trm-st','b1','b2','b3','b4','fw','fc'];
     fields.forEach(f => {
       const elInput = document.getElementById('i-' + f);
@@ -182,7 +183,7 @@
   async function save() {
     const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true, backgroundColor: null });
     const link = document.createElement('a');
-    link.download = 'ps-editor-v1-5.png';
+    link.download = 'peeksecurity-v1-6.png';
     link.href = canvas.toDataURL();
     link.click();
   }
