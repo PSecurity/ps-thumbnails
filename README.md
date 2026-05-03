@@ -84,7 +84,9 @@ O fundo da página muda automaticamente junto com o tema!
 ## 🖥️ Layout responsivo
 
 · Desktop (≥1500px) – editor e thumbnail lado a lado, mesma altura (1280px)
+
 · Tablet / Telas médias (740px – 1499px) – blocos empilhados, cada um com 720px de largura
+
 · Mobile (<740px) – rolagem horizontal para manter a thumb exata (sem distorção)
 
 ---
