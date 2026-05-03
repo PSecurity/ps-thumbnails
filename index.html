@@ -13,21 +13,67 @@
   .theme-blue { --main: #003366; --acc: #0077ff; --green: #00f2ff; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; min-height: 100vh; }
 
-  /* CONTAINER PRINCIPAL */
+  /* ===== FUNDO ESTILIZADO DA PÁGINA ===== */
+  body {
+    background: #0a0a0a;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 20px;
+    color: white;
+    min-height: 100vh;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+  /* Gradiente dinâmico + grid de linhas (estilo hacker) */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(var(--main-rgb), 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--main-rgb), 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 30%, rgba(var(--acc-rgb), 0.15), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Para usar RGB das variáveis (necessário para o gradiente dinâmico) */
+  .theme-purple { --main-rgb: 123, 47, 190; --acc-rgb: 157, 78, 221; }
+  .theme-green  { --main-rgb: 0, 143, 17; --acc-rgb: 0, 255, 65; }
+  .theme-red    { --main-rgb: 139, 0, 0; --acc-rgb: 255, 0, 0; }
+  .theme-blue   { --main-rgb: 0, 51, 102; --acc-rgb: 0, 119, 255; }
+  /* Fallback para o body caso as variáveis não estejam definidas rapidamente */
+  body { --main-rgb: 123, 47, 190; --acc-rgb: 157, 78, 221; }
+
+  /* CONTAINER PRINCIPAL - fica acima do fundo (z-index automático por não ser fixed) */
   .app-container {
     display: flex;
-    flex-direction: column;  /* mobile: empilhado */
+    flex-direction: column;
     align-items: center;
     gap: 25px;
     max-width: 920px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
 
-  /* PAINEL DE CONTROLE - altura será definida no desktop */
+  /* PAINEL DE CONTROLE */
   .controls {
-    background: #151525;
+    background: rgba(21, 21, 37, 0.85);
+    backdrop-filter: blur(4px);
     border: 2px solid var(--main);
     border-radius: 12px;
     padding: 20px;
@@ -38,7 +84,8 @@
   }
   .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
   .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
-  .t-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
+  .t-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.2s; }
+  .t-btn:hover { transform: scale(1.1); border-color: white; }
 
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .group { margin-bottom: 5px; }
@@ -46,9 +93,10 @@
   label { display: block; font-size: 8px; color: #888; text-transform: uppercase; margin-bottom: 2px; font-weight: 900; }
   input { width: 100%; background: #0a0a15; border: 1px solid #333; border-radius: 4px; padding: 8px; color: white; font-size: 12px; outline: none; border-left: 3px solid var(--main); }
 
-  .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; }
+  .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; transition: 0.2s; }
+  .btn-save:hover { filter: brightness(1.2); transform: scale(1.02); }
 
-  /* THUMBNAIL - tamanho fixo 420x745 */
+  /* THUMBNAIL */
   .wrapper { position: relative; width: 420px; height: 745px; flex-shrink: 0; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
 
@@ -89,13 +137,13 @@
   @media (min-width: 900px) {
     .app-container {
       flex-direction: row;
-      align-items: stretch; /* faz os dois blocos terem a mesma altura */
+      align-items: stretch;
       justify-content: center;
       gap: 30px;
     }
     .controls {
-      width: 420px;         /* mesma largura da thumb */
-      height: 745px;        /* mesma altura da thumb */
+      width: 420px;
+      height: 745px;
       padding: 20px;
       margin-bottom: 0;
     }
@@ -209,7 +257,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  function setTheme(t) { document.body.className = t; up(); }
+  function setTheme(t) {
+    document.body.className = t;
+    up();
+  }
   function up() {
     document.getElementById('o-png').src = document.getElementById('i-png').value;
     const map = {
