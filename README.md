@@ -1,9 +1,11 @@
-```markdown
 # ⚡ [SYSTEM_OVERRIDE]: PS.EDITOR_v2.0
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/render?type=glitch&color=7B2FBE&height=120&section=header&text=PEEK_SECURITY&fontSize=70">
-</p>
+![Banner Peek Security](https://capsule-render.vercel.app/render?type=glitch&color=7B2FBE&height=120&section=header&text=PEEK_SECURITY&fontSize=70)
+
+```text
+> STATUS: [ STABLE_BUILD ]
+> VERSION: 2.0.0_FULL_CONTROL
+> ACCESS: GRANTED // PEEK_SECURITY_PROTOCOL
 
 ```text
 > STATUS: [ STABLE_BUILD ]
