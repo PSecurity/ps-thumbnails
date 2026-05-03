@@ -1,43 +1,42 @@
-# 📂 PS-THUMBNAILS [v1.0 OFFICIAL] 
+# 📂 PS.EDITOR [v1.0 OFFICIAL]
+> **ACCESS_LEVEL:** ROOT | **STATUS:** APPROVED | **ORIGIN:** PEEKSECURITY
 
-## ⚡ QUICK OVERVIEW
-O **ps-thumbnails** é a engine oficial de geração de identidades visuais da PeekSecurity. Projetado para máxima agilidade e impacto estético, o editor converte parâmetros de texto em thumbnails de alta fidelidade com estética hacker/cyberpunk.
+---
 
-## 🛠️ CORE ARCHITECTURE
-A v1 Oficial foi construída sobre três pilares fundamentais:
+## ⚡ OVERVIEW
+O **ps.editor** é a ferramenta definitiva de geração de identidades visuais da PeekSecurity. Desenvolvido para simplificar a criação de thumbnails complexas, ele combina um motor de estilização via CSS Variables com injeção dinâmica de dados para resultados profissionais em segundos.
 
-* **Dynamic Variable Engine:** Controle total sobre todos os elementos de texto e metadados.
-* **Thematic Shift [TS]:** Alternância instantânea entre 4 protocolos de cores (Purple, Green, Red, Blue).
-* **Export High-Res:** Renderização em escala 3x via HTML2Canvas para nitidez absoluta.
+## 🛠️ TECH STACK
+* **Frontend:** HTML5 / CSS3 (Grid & Flexbox architecture)
+* **Engine:** Pure JavaScript (DOM Manipulation)
+* **Library:** `html2canvas` (v1.4.1) para exportação em High-DPI.
+* **Theming:** CSS Root Variables para troca de estados de UI.
 
 ---
 
 ## 🎨 THEMATIC PROTOCOLS
-| Protocolo | Designação | Uso Sugerido |
+O sistema opera em 4 protocolos de espectro cromático:
+
+| Protocolo | Comando UI | Vibe |
 | :--- | :--- | :--- |
-| `Purple Original` | Standard | Branding clássico PeekSecurity |
-| `Hacker Green` | Matrix | Tutoriais de Terminal e scripts Linux |
-| `Danger Red` | Critical | Alertas de vulnerabilidades e exploits |
-| `Deep Blue` | Corporate | Relatórios e análises de inteligência |
+| `Purple` | `theme-purple` | **Cyber Aura:** O padrão oficial PeekSecurity. |
+| `Green` | `theme-green` | **Ghost Mode:** Focado em terminal e scripts puros. |
+| `Red` | `theme-red` | **Breach Alert:** Para vulnerabilidades e exploits. |
+| `Blue` | `theme-blue` | **Deep Intel:** Análises e relatórios corporativos. |
 
 ---
 
-## 🕹️ OPERATIONAL CONTROLS
-1.  **Header Edit:** Altere o nome da ferramenta e as tags superiores.
-2.  **Title Matrix:** Três camadas de títulos (L1, L2, L3) para hierarquia visual.
-3.  **Terminal Log:** Simulação de logs reais com inputs customizáveis.
-4.  **Bullet Points:** 4 slots para features e diferenciais da ferramenta.
-5.  **Thematic Selector:** Clique nos núcleos de energia para trocar o esquema de cores.
-
-## 📥 INSTALLATION & USAGE
-1. Clone o repositório ou salve o arquivo `.html`.
-2. Abra em qualquer navegador moderno.
-3. Configure os campos no painel **PEEK EDITOR**.
-4. Execute o comando `BAIXAR THUMBNAIL (PNG)`.
+## 🕹️ OPERATIONAL GUIDELINES
+1.  **SUDO MODE:** O painel de controle permite a edição de 18 pontos de dados simultâneos.
+2.  **REAL-TIME UPDATE:** Qualquer alteração no input reflete instantaneamente na UI da thumbnail.
+3.  **TERMINAL LOGS:** Personalize o cabeçalho do shell e o comando principal para contextualizar o vídeo/post.
+4.  **EXPORT:** O botão `BAIXAR` processa a imagem em escala 3x, garantindo que não haja serrilhado em telas 4K.
 
 ---
 
-## 🔒 SECURITY NOTICE
-*Documento restrito para uso oficial PeekSecurity. O uso ético das identidades geradas é obrigatório.*
-
-**[TERMINAL DISCONNECTED]**
+## 📥 QUICK START
+```bash
+# 1. Salve o código como index.html
+# 2. Execute em qualquer browser moderno
+# 3. Personalize os campos
+# 4. Profit.
