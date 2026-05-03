@@ -15,18 +15,27 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0a0a; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; min-height: 100vh; }
 
-  /* --- NOVO CONTAINER PRINCIPAL (FLEX) --- */
+  /* CONTAINER PRINCIPAL */
   .app-container {
     display: flex;
-    flex-direction: column;  /* padrão: empilhado (mobile) */
+    flex-direction: column;  /* mobile: empilhado */
     align-items: center;
     gap: 25px;
-    max-width: 1200px;
+    max-width: 920px;
     margin: 0 auto;
   }
 
-  /* PAINEL TOTAL (mesmo estilo original) */
-  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 580px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 70vh; overflow-y: auto; }
+  /* PAINEL DE CONTROLE - altura será definida no desktop */
+  .controls {
+    background: #151525;
+    border: 2px solid var(--main);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
   .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
   .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
   .t-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
@@ -39,8 +48,8 @@
 
   .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; }
 
-  /* THUMBNAIL (wrapper e #thumbnail originais) */
-  .wrapper { position: relative; width: 420px; height: 745px; }
+  /* THUMBNAIL - tamanho fixo 420x745 */
+  .wrapper { position: relative; width: 420px; height: 745px; flex-shrink: 0; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
 
   /* ASSET FUNDO */
@@ -76,27 +85,29 @@
   .f-cta { font-family: 'Bebas Neue'; font-size: 28px; color: white; letter-spacing: 2px; }
   .f-cta span { color: var(--main); font-size: 32px; }
 
-  /* --- RESPONSIVIDADE: MOBILE EMPILHADO / DESKTOP LADO A LADO --- */
+  /* --- RESPONSIVIDADE: MOBILE EMPILHADO / DESKTOP LADO A LADO COM MESMA ALTURA --- */
   @media (min-width: 900px) {
     .app-container {
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch; /* faz os dois blocos terem a mesma altura */
       justify-content: center;
+      gap: 30px;
     }
     .controls {
-      width: 480px;
+      width: 420px;         /* mesma largura da thumb */
+      height: 745px;        /* mesma altura da thumb */
+      padding: 20px;
       margin-bottom: 0;
-      position: sticky;
-      top: 20px;
     }
     .wrapper {
-      flex-shrink: 0;
+      width: 420px;
+      height: 745px;
     }
   }
 
   @media (max-width: 680px) {
     body { padding: 10px; }
-    .controls { width: 100%; max-width: 420px; padding: 15px; margin: 0 auto; }
+    .controls { width: 100%; max-width: 420px; padding: 15px; margin: 0 auto; max-height: 70vh; height: auto; }
     .wrapper { width: 100%; display: flex; justify-content: center; }
     #thumbnail { width: 100%; max-width: 420px; height: auto; aspect-ratio: 420 / 745; }
     .grid { gap: 8px; }
@@ -108,7 +119,6 @@
 </head>
 <body class="theme-purple">
 
-<!-- NOVA ESTRUTURA: app-container para flex responsivo -->
 <div class="app-container">
   <div class="controls">
     <h2>🎛️ ps.editor</h2>
