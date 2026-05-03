@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ps.editor - v1.6 Ultra</title>
+<title>ps.editor - v1.7 Stable</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+  /* CORES DINÂMICAS */
   :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; --bg: #05050f; }
-  
   .theme-purple { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; }
   .theme-green { --main: #008f11; --acc: #00ff41; --green: #00ff41; }
   .theme-red { --main: #8b0000; --acc: #ff0000; --green: #ff4d4d; }
@@ -16,45 +16,33 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; }
 
-  /* PAINEL DINÂMICO */
-  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 550px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 60vh; overflow-y: auto; transition: 0.3s; }
+  /* PAINEL DE CONTROLE (O MESMO DA V1.3) */
+  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 550px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 60vh; overflow-y: auto; }
   .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
-  
   .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; background: #0a0a15; padding: 12px; border-radius: 8px; border: 1px solid #333; }
-  .t-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; transition: 0.2s; }
-
+  .t-btn { width: 35px; height: 35px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); cursor: pointer; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .group { margin-bottom: 8px; }
   .full { grid-column: span 2; }
   label { display: block; font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 3px; font-weight: 900; }
-  input { width: 100%; background: #0a0a15; border: 1px solid #333; border-radius: 4px; padding: 10px; color: white; font-size: 13px; outline: none; border-left: 3px solid var(--main); transition: 0.3s border; }
+  input { width: 100%; background: #0a0a15; border: 1px solid #333; border-radius: 4px; padding: 10px; color: white; font-size: 13px; outline: none; border-left: 3px solid var(--main); }
+  .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; }
 
-  .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; font-weight: bold; transition: 0.3s all; }
-
-  /* THUMBNAIL ENGINE */
+  /* THUMBNAIL (ESTRUTURA V1.3 PRESERVADA) */
   .wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
+  
+  /* CAMADA DA MÁSCARA (Ajustada para não bugar o resto) */
+  .hacker-asset { position: absolute; top: -10px; right: -30px; width: 340px; z-index: 2; opacity: 0.6; filter: drop-shadow(0 0 15px var(--main)); pointer-events: none; }
+  .hacker-asset img { width: 100%; height: auto; }
 
-  /* MÁSCARA HACKER COM FILTRO DE COR */
-  .hacker-asset { 
-    position: absolute; 
-    top: -10px; 
-    right: -30px; 
-    width: 350px; 
-    z-index: 5; 
-    pointer-events: none;
-    filter: drop-shadow(0 0 15px var(--main));
-    transition: 0.5s all ease-in-out;
-  }
-  .hacker-asset img { width: 100%; height: auto; display: block; }
-
-  .scanline { position: absolute; width: 100%; height: 2px; background: rgba(255,255,255,0.03); z-index: 6; pointer-events: none; animation: move 10s linear infinite; }
+  .scanline { position: absolute; width: 100%; height: 2px; background: rgba(255,255,255,0.03); z-index: 5; pointer-events: none; animation: move 10s linear infinite; }
   @keyframes move { 0% { top: 0; } 100% { top: 100%; } }
-  #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(var(--main) 0.5px, transparent 0.5px); background-size: 20px 20px; opacity: 0.1; }
+  #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(var(--main) 0.5px, transparent 0.5px); background-size: 20px 20px; opacity: 0.1; z-index: 1; }
 
+  /* TEXTOS E BLOCOS (IGUAIS À V1.3) */
   .header-main { position: absolute; top: 20px; left: 20px; z-index: 10; font-family: 'Bebas Neue'; font-size: 22px; }
   .tag-tr { position: absolute; top: 20px; right: 20px; border: 1px solid var(--acc); padding: 3px 10px; font-family: 'Share Tech Mono'; font-size: 12px; color: var(--acc); background: rgba(0,0,0,0.7); z-index: 10; }
-
   .title-block { position: absolute; top: 55px; left: 20px; right: 20px; z-index: 10; }
   .label-peek { display: inline-block; background: var(--main); padding: 3px 12px; font-size: 12px; font-weight: 900; margin-bottom: 5px; clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%); }
   .t-l1 { font-family: 'Bebas Neue'; font-size: 62px; line-height: 0.85; display: block; text-shadow: 4px 4px 0 black; }
@@ -62,67 +50,50 @@
   .t-l3 { font-family: 'Bebas Neue'; font-size: 48px; line-height: 0.85; display: block; margin-top: 5px; }
   .sub-green { display: inline-block; margin-top: 15px; background: #000; color: var(--green); padding: 8px 15px; font-size: 14px; font-weight: 900; border-left: 5px solid var(--green); text-transform: uppercase; }
 
+  .badges { position: absolute; top: 310px; left: 20px; display: flex; gap: 8px; z-index: 10; }
+  .b-tag { background: #000; border: 1.5px solid var(--acc); padding: 5px 12px; font-size: 12px; font-weight: 900; color: var(--green); border-radius: 4px; }
+
   .terminal { position: absolute; top: 345px; right: 15px; width: 230px; height: 160px; background: rgba(2,2,8,0.98); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 12px; font-family: 'Share Tech Mono'; font-size: 10px; line-height: 1.4; box-shadow: 0 0 25px rgba(0,0,0,0.9); display: flex; flex-direction: column; }
   .term-h { color: var(--acc); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; padding-bottom: 4px; display: flex; justify-content: space-between; }
 
   .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
   .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; display: flex; align-items: center; gap: 8px; }
 
-  /* RODAPÉ SINCRONIZADO COM ROXO PADRÃO */
+  /* RODAPÉ DINÂMICO CORRIGIDO */
   .footer { position: absolute; bottom: 0; width: 100%; height: 140px; background: linear-gradient(to top, #000 60%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); transition: 0.3s all; }
+  .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); }
   .f-warn { font-size: 11px; color: #ccc; letter-spacing: 4px; margin-bottom: 8px; font-weight: 900; }
   .f-cta { font-family: 'Bebas Neue'; font-size: 28px; color: white; letter-spacing: 2px; }
-  .f-cta span { color: var(--main); font-size: 32px; transition: 0.3s color; }
+  .f-cta span { color: var(--main); font-size: 32px; }
 </style>
 </head>
 <body class="theme-purple">
 
 <div class="controls">
   <h2>🎛️ sudo ps.editor</h2>
-  
   <div class="theme-selector">
     <div class="t-btn" style="background:#7B2FBE" onclick="setTheme('theme-purple')"></div>
     <div class="t-btn" style="background:#00ff41" onclick="setTheme('theme-green')"></div>
     <div class="t-btn" style="background:#ff0000" onclick="setTheme('theme-red')"></div>
     <div class="t-btn" style="background:#0077ff" onclick="setTheme('theme-blue')"></div>
   </div>
-
   <div class="grid">
-    <div class="group full"><label>URL do PNG (Máscara Hacker)</label><input type="text" id="i-png" value="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png" oninput="up()"></div>
-    <div class="group full"><label>Opacidade</label><input type="text" id="i-op" value="0.7" oninput="up()"></div>
-    
+    <div class="group full"><label>URL Máscara Hacker</label><input type="text" id="i-png" value="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png" oninput="up()"></div>
     <div class="group"><label>Logo Nome</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
     <div class="group"><label>Logo Sub</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
-    <div class="group"><label>Tag Canto Sup.</label><input type="text" id="i-tr" value=">_ TERMUX" oninput="up()"></div>
-    <div class="group"><label>Etiqueta Tit.</label><input type="text" id="i-et" value="🔧 CRIADO POR PEEK" oninput="up()"></div>
     <div class="group"><label>Título L1</label><input type="text" id="i-t1" value="SCRIPT" oninput="up()"></div>
     <div class="group"><label>Título L2</label><input type="text" id="i-t2" value="NMAP" oninput="up()"></div>
     <div class="group full"><label>Título L3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="up()"></div>
-    <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
     <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 ANDROID" oninput="up()"></div>
     <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 LINUX" oninput="up()"></div>
-    <div class="group"><label>Terminal Tit.</label><input type="text" id="i-trm-h" value="PEEK-SHELL" oninput="up()"></div>
-    <div class="group"><label>L1: Comando</label><input type="text" id="i-trm-c" value="$ bash nmap_peek.sh" oninput="up()"></div>
-    <div class="group"><label>L2: Log</label><input type="text" id="i-trm-l1" value="[SYSTEM] Initializing..." oninput="up()"></div>
-    <div class="group"><label>L3: Log</label><input type="text" id="i-trm-l2" value="> Target: 192.168.1.1" oninput="up()"></div>
-    <div class="group full"><label>L4: Status</label><input type="text" id="i-trm-st" value="[+] Vulnerability Found!" oninput="up()"></div>
-    <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="⚡ SCRIPT PERSONALIZADO" oninput="up()"></div>
-    <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="🔍 SCANS AUTOMÁTICOS" oninput="up()"></div>
-    <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="🛡️ DETECÇÃO DE VULNS" oninput="up()"></div>
-    <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="📱 100% NO CELULAR" oninput="up()"></div>
-    <div class="group full"><label>Aviso Rodapé</label><input type="text" id="i-fw" value="— USO ÉTICO E PROFISSIONAL —" oninput="up()"></div>
     <div class="group full"><label>CTA Rodapé</label><input type="text" id="i-fc" value="BAIXE NA COMUNIDADE!" oninput="up()"></div>
-  </div>
+    </div>
   <button class="btn-save" onclick="save()">BAIXAR THUMBNAIL (PNG)</button>
 </div>
 
 <div class="wrapper">
   <div id="thumbnail">
-    <div class="hacker-asset" id="o-asset-wrap" style="opacity: 0.7;">
-      <img id="o-png" src="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png">
-    </div>
-
+    <div class="hacker-asset" id="o-asset-wrap"><img id="o-png" src="https://www.pngarts.com/files/1/Mask-Anonymous-PNG-Transparent-Image.png"></div>
     <div class="scanline"></div>
     <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
     <div class="tag-tr" id="o-tr">>_ TERMUX</div>
@@ -152,7 +123,7 @@
       <div class="bullet"><span id="o-b4">📱 100% NO CELULAR</span></div>
     </div>
     <div class="footer">
-      <div class="f-line" id="o-f-line"></div>
+      <div class="f-line"></div>
       <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
       <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
     </div>
@@ -163,27 +134,21 @@
 <script>
   function setTheme(theme) { document.body.className = theme; up(); }
   function up() {
-    const pngUrl = document.getElementById('i-png').value;
-    document.getElementById('o-png').src = pngUrl;
-    document.getElementById('o-asset-wrap').style.opacity = document.getElementById('i-op').value;
-
-    const fields = ['l1','l2','tr','et','t1','t2','t3','sub','bg1','bg2','trm-h','trm-c','trm-l1','trm-l2','trm-st','b1','b2','b3','b4','fw','fc'];
+    document.getElementById('o-png').src = document.getElementById('i-png').value;
+    const fields = ['l1','l2','t1','t2','t3','bg1','bg2','fc'];
     fields.forEach(f => {
-      const elInput = document.getElementById('i-' + f);
-      const elOutput = document.getElementById('o-' + f);
-      if (elInput && elOutput) {
-        if(f === 'fc') {
-          elOutput.innerHTML = elInput.value.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
-        } else {
-          elOutput.textContent = elInput.value;
-        }
+      const input = document.getElementById('i-' + f);
+      const output = document.getElementById('o-' + f);
+      if(input && output) {
+        if(f === 'fc') output.innerHTML = input.value.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
+        else output.textContent = input.value;
       }
     });
   }
   async function save() {
-    const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true, backgroundColor: null });
+    const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true });
     const link = document.createElement('a');
-    link.download = 'peeksecurity-v1-6.png';
+    link.download = 'ps-editor-stable.png';
     link.href = canvas.toDataURL();
     link.click();
   }
