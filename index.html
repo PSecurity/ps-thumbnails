@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ps.editor - v1.4 Graphic Assets</title>
+<title>ps.editor - v1.5 Master</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; --bg: #05050f; }
@@ -27,7 +27,6 @@
   .full { grid-column: span 2; }
   label { display: block; font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 3px; font-weight: 900; }
   input { width: 100%; background: #0a0a15; border: 1px solid #333; border-radius: 4px; padding: 10px; color: white; font-size: 13px; outline: none; border-left: 3px solid var(--main); transition: 0.3s border; }
-  input:focus { border-color: var(--green); }
 
   .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; font-weight: bold; transition: 0.3s all; }
 
@@ -35,12 +34,12 @@
   .wrapper { position: relative; width: 420px; height: 745px; }
   #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
 
-  /* ASSET PNG FIXO NO CANTO */
+  /* ASSET PNG POSICIONADO */
   .hacker-asset { 
     position: absolute; 
-    top: -30px; 
-    right: -50px; 
-    width: 380px; 
+    top: -20px; 
+    right: -20px; 
+    width: 320px; 
     z-index: 5; 
     pointer-events: none;
     filter: drop-shadow(0 0 15px var(--main));
@@ -71,11 +70,12 @@
   .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
   .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; display: flex; align-items: center; gap: 8px; }
 
+  /* RODAPÉ SINCRONIZADO COM O TEMA */
   .footer { position: absolute; bottom: 0; width: 100%; height: 140px; background: linear-gradient(to top, #000 60%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--green); }
+  .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); transition: 0.3s all; }
   .f-warn { font-size: 11px; color: #ccc; letter-spacing: 4px; margin-bottom: 8px; font-weight: 900; }
   .f-cta { font-family: 'Bebas Neue'; font-size: 28px; color: white; letter-spacing: 2px; }
-  .f-cta span { color: var(--green); font-size: 32px; }
+  .f-cta span { color: var(--main); font-size: 32px; transition: 0.3s color; }
 </style>
 </head>
 <body class="theme-purple">
@@ -91,8 +91,8 @@
   </div>
 
   <div class="grid">
-    <div class="group full"><label>URL do PNG (Canto Superior)</label><input type="text" id="i-png" value="https://i.imgur.com/K3Z0t9U.png" oninput="up()"></div>
-    <div class="group full"><label>Opacidade do Asset</label><input type="text" id="i-op" value="0.6" oninput="up()"></div>
+    <div class="group full"><label>URL do PNG (Canto Superior)</label><input type="text" id="i-png" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" oninput="up()"></div>
+    <div class="group full"><label>Opacidade do Asset</label><input type="text" id="i-op" value="0.7" oninput="up()"></div>
     
     <div class="group"><label>Logo Nome</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
     <div class="group"><label>Logo Sub</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
@@ -121,10 +121,9 @@
 
 <div class="wrapper">
   <div id="thumbnail">
-    <div class="hacker-asset" id="o-asset-wrap" style="opacity: 0.6;">
-      <img id="o-png" src="https://i.imgur.com/K3Z0t9U.png">
+    <div class="hacker-asset" id="o-asset-wrap">
+      <img id="o-png" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png">
     </div>
-
     <div class="scanline"></div>
     <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
     <div class="tag-tr" id="o-tr">>_ TERMUX</div>
@@ -154,7 +153,7 @@
       <div class="bullet"><span id="o-b4">📱 100% NO CELULAR</span></div>
     </div>
     <div class="footer">
-      <div class="f-line"></div>
+      <div class="f-line" id="o-f-line"></div>
       <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
       <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
     </div>
@@ -163,30 +162,27 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  function setTheme(theme) { document.body.className = theme; }
+  function setTheme(theme) { document.body.className = theme; up(); }
   function up() {
-    // Atualiza Imagem e Opacidade
     document.getElementById('o-png').src = document.getElementById('i-png').value;
     document.getElementById('o-asset-wrap').style.opacity = document.getElementById('i-op').value;
-
     const fields = ['l1','l2','tr','et','t1','t2','t3','sub','bg1','bg2','trm-h','trm-c','trm-l1','trm-l2','trm-st','b1','b2','b3','b4','fw','fc'];
     fields.forEach(f => {
       const elInput = document.getElementById('i-' + f);
       const elOutput = document.getElementById('o-' + f);
       if (elInput && elOutput) {
-        const val = elInput.value;
         if(f === 'fc') {
-          elOutput.innerHTML = val.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
+          elOutput.innerHTML = elInput.value.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>');
         } else {
-          elOutput.textContent = val;
+          elOutput.textContent = elInput.value;
         }
       }
     });
   }
   async function save() {
-    const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true });
+    const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true, backgroundColor: null });
     const link = document.createElement('a');
-    link.download = 'ps-editor-v1-4-full.png';
+    link.download = 'ps-editor-v1-5.png';
     link.href = canvas.toDataURL();
     link.click();
   }
