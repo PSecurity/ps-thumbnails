@@ -1,183 +1,380 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ps.editor - v2.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<style>
-  :root { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; --bg: #05050f; }
-  .theme-purple { --main: #7B2FBE; --acc: #9D4EDD; --green: #39ff14; }
-  .theme-green { --main: #008f11; --acc: #00ff41; --green: #00ff41; }
-  .theme-red { --main: #8b0000; --acc: #ff0000; --green: #ff4d4d; }
-  .theme-blue { --main: #003366; --acc: #0077ff; --green: #00f2ff; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ps-thumbnails · PEEK SECURITY engine</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; min-height: 100vh; font-family: 'Barlow Condensed', sans-serif; padding: 20px; color: white; }
+        body {
+            background: #0b0b0b;
+            font-family: 'Courier New', 'Fira Code', monospace;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-  /* PAINEL TOTAL */
-  .controls { background: #151525; border: 2px solid var(--main); border-radius: 12px; padding: 20px; width: 580px; margin-bottom: 25px; box-shadow: 0 0 30px rgba(0,0,0,0.5); max-height: 70vh; overflow-y: auto; }
-  .controls h2 { font-family: 'Bebas Neue'; color: var(--main); font-size: 32px; margin-bottom: 15px; text-align: center; letter-spacing: 3px; }
-  .theme-selector { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
-  .t-btn { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); }
+        /* container central que segura tudo */
+        .app-container {
+            max-width: 360px;
+            width: 100%;
+            margin: 0 auto;
+        }
 
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .group { margin-bottom: 5px; }
-  .full { grid-column: span 2; }
-  label { display: block; font-size: 8px; color: #888; text-transform: uppercase; margin-bottom: 2px; font-weight: 900; }
-  input { width: 100%; background: #0a0a15; border: 1px solid #333; border-radius: 4px; padding: 8px; color: white; font-size: 12px; outline: none; border-left: 3px solid var(--main); }
+        /* área de edição e preview juntas, mesma largura */
+        .editor-panel {
+            width: 100%;
+            background: #111;
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 0 12px rgba(0, 255, 153, 0.1);
+        }
 
-  .btn-save { width: 100%; margin-top: 15px; padding: 18px; background: var(--main); color: white; border: none; border-radius: 6px; font-family: 'Bebas Neue'; font-size: 24px; cursor: pointer; }
+        /* cada campo estilo terminal */
+        .input-field {
+            margin-bottom: 1rem;
+            width: 100%;
+        }
 
-  /* THUMBNAIL */
-  .wrapper { position: relative; width: 420px; height: 745px; }
-  #thumbnail { width: 420px; height: 745px; background: var(--bg); position: relative; overflow: hidden; border: 1px solid #222; }
+        .input-field label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #0f0;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+        }
 
-  /* ASSET FUNDO */
-  .hacker-asset { position: absolute; top: -10px; right: -20px; width: 350px; z-index: 2; opacity: 0.6; filter: drop-shadow(0 0 15px var(--main)); pointer-events: none; }
-  .hacker-asset img { width: 100%; height: auto; }
+        .input-field input,
+        .input-field textarea,
+        .input-field select {
+            width: 100%;
+            background: #000;
+            border: 1px solid #2c2c2c;
+            padding: 0.6rem;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.2s;
+        }
 
-  .scanline { position: absolute; width: 100%; height: 2px; background: rgba(255,255,255,0.03); z-index: 5; pointer-events: none; animation: move 10s linear infinite; }
-  @keyframes move { 0% { top: 0; } 100% { top: 100%; } }
-  #thumbnail::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(var(--main) 0.5px, transparent 0.5px); background-size: 20px 20px; opacity: 0.1; z-index: 1; }
+        .input-field input:focus,
+        .input-field textarea:focus,
+        .input-field select:focus {
+            border-color: #00ff99;
+            box-shadow: 0 0 4px #00ff99;
+        }
 
-  /* CONTEÚDO V1.3 */
-  .header-main { position: absolute; top: 20px; left: 20px; z-index: 10; font-family: 'Bebas Neue'; font-size: 22px; }
-  .tag-tr { position: absolute; top: 20px; right: 20px; border: 1px solid var(--acc); padding: 3px 10px; font-family: 'Share Tech Mono'; font-size: 12px; color: var(--acc); background: rgba(0,0,0,0.7); z-index: 10; }
-  .title-block { position: absolute; top: 55px; left: 20px; right: 20px; z-index: 10; }
-  .label-peek { display: inline-block; background: var(--main); padding: 3px 12px; font-size: 12px; font-weight: 900; margin-bottom: 5px; clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%); }
-  .t-l1 { font-family: 'Bebas Neue'; font-size: 62px; line-height: 0.85; display: block; }
-  .t-l2 { font-family: 'Bebas Neue'; font-size: 85px; line-height: 0.85; color: var(--acc); display: block; }
-  .t-l3 { font-family: 'Bebas Neue'; font-size: 48px; line-height: 0.85; display: block; }
-  .sub-green { display: inline-block; margin-top: 15px; background: #000; color: var(--green); padding: 8px 15px; font-size: 14px; font-weight: 900; border-left: 5px solid var(--green); text-transform: uppercase; }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
 
-  .badges { position: absolute; top: 310px; left: 20px; display: flex; gap: 8px; z-index: 10; }
-  .b-tag { background: #000; border: 1.5px solid var(--acc); padding: 5px 12px; font-size: 12px; font-weight: 900; color: var(--green); border-radius: 4px; }
+        /* preview da thumbnail */
+        .preview-area {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
 
-  .terminal { position: absolute; top: 345px; right: 15px; width: 230px; height: 160px; background: rgba(2,2,8,0.98); border: 1px solid var(--main); border-radius: 8px; z-index: 10; padding: 12px; font-family: 'Share Tech Mono'; font-size: 10px; line-height: 1.4; }
-  .term-h { color: var(--acc); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; padding-bottom: 4px; display: flex; justify-content: space-between; }
+        #thumbnail-preview {
+            width: 100%;
+            max-width: 360px;
+            background: #0a0a0a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #333;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            transition: all 0.1s;
+        }
 
-  .bullets { position: absolute; top: 375px; left: 20px; z-index: 10; width: 180px; }
-  .bullet { background: rgba(0,0,0,0.8); border-left: 4px solid var(--acc); padding: 8px 12px; margin-bottom: 10px; font-size: 12px; font-weight: 900; border-radius: 0 4px 4px 0; }
+        /* conteúdo interno da thumb (seu design brutal) */
+        .thumb-inner {
+            padding: 1rem;
+            background: linear-gradient(145deg, #0e0e0e, #050505);
+        }
 
-  /* RODAPÉ DINÂMICO ROXO */
-  .footer { position: absolute; bottom: 0; width: 100%; height: 140px; background: linear-gradient(to top, #000 60%, transparent); z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .f-line { width: 85%; height: 2px; background: linear-gradient(90deg, transparent, var(--main), transparent); margin-bottom: 15px; box-shadow: 0 0 15px var(--main); }
-  .f-warn { font-size: 11px; color: #ccc; letter-spacing: 4px; margin-bottom: 8px; font-weight: 900; }
-  .f-cta { font-family: 'Bebas Neue'; font-size: 28px; color: white; letter-spacing: 2px; }
-  .f-cta span { color: var(--main); font-size: 32px; }
-</style>
+        .terminal-header {
+            background: #1e1e1e;
+            padding: 0.4rem 0.8rem;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #2c2c2c;
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .dot:nth-child(2) { background: #ffbd2e; }
+        .dot:nth-child(3) { background: #27c93f; }
+
+        .terminal-body {
+            padding: 0.8rem 0;
+        }
+
+        .prompt {
+            color: #0f0;
+            font-weight: bold;
+        }
+
+        .command {
+            color: #f5f5f5;
+            background: #1a1a1a;
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .log-line {
+            color: #bcbcbc;
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            border-left: 2px solid #00ff99;
+            padding-left: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00ff991a;
+            border: 1px solid #00ff99;
+            color: #0f0;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            margin-top: 0.6rem;
+        }
+
+        /* botão radical */
+        .gen-btn {
+            width: 100%;
+            background: #000;
+            border: 2px solid #00ff99;
+            color: #00ff99;
+            font-weight: bold;
+            padding: 0.8rem;
+            font-family: monospace;
+            font-size: 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .gen-btn:hover {
+            background: #00ff99;
+            color: #000;
+            box-shadow: 0 0 12px #00ff99;
+        }
+
+        /* tema switcher */
+        .theme-selector {
+            margin: 1rem 0 0.5rem;
+        }
+
+        hr {
+            border-color: #222;
+            margin: 0.8rem 0;
+        }
+    </style>
 </head>
-<body class="theme-purple">
+<body>
+<div class="app-container">
+    <div class="editor-panel">
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <span style="color:#0f0; font-weight: bold;">⚡ ps.editor v2.0</span>
+            <span style="color:#777; font-size:0.7rem;"> raw-code thumbnail forge</span>
+        </div>
 
-<div class="controls">
-  <h2>🎛️ ps.editor</h2>
-  <div class="theme-selector">
-    <div class="t-btn" style="background:#7B2FBE" onclick="setTheme('theme-purple')"></div>
-    <div class="t-btn" style="background:#00ff41" onclick="setTheme('theme-green')"></div>
-    <div class="t-btn" style="background:#ff0000" onclick="setTheme('theme-red')"></div>
-    <div class="t-btn" style="background:#0077ff" onclick="setTheme('theme-blue')"></div>
-  </div>
+        <!-- campos de edição : mesmo largura do preview -->
+        <div class="input-field">
+            <label>🎯 MAIN TITLE</label>
+            <input type="text" id="mainTitle" value="PEEK SECURITY">
+        </div>
 
-  <div class="grid">
-    <div class="group full"><label>URL Imagem Demo</label><input type="text" id="i-png" value="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" oninput="up()"></div>
-    
-    <div class="group"><label>Logo Parte 1</label><input type="text" id="i-l1" value="PEEK" oninput="up()"></div>
-    <div class="group"><label>Logo Parte 2</label><input type="text" id="i-l2" value="SECURITY" oninput="up()"></div>
-    <div class="group"><label>Tag Superior Dir.</label><input type="text" id="i-tr" value=">_ TERMUX" oninput="up()"></div>
-    <div class="group"><label>Etiqueta Título</label><input type="text" id="i-et" value="🔧 CRIADO POR PEEK" oninput="up()"></div>
-    
-    <div class="group"><label>Título Linha 1</label><input type="text" id="i-t1" value="SCRIPT" oninput="up()"></div>
-    <div class="group"><label>Título Linha 2</label><input type="text" id="i-t2" value="NMAP" oninput="up()"></div>
-    <div class="group full"><label>Título Linha 3</label><input type="text" id="i-t3" value="NO TERMUX!" oninput="up()"></div>
-    <div class="group full"><label>Subtítulo Impacto</label><input type="text" id="i-sub" value="AUTOMATIZE SEUS SCANS EM UM CLIQUE!" oninput="up()"></div>
-    
-    <div class="group"><label>Badge 1</label><input type="text" id="i-bg1" value="🤖 ANDROID" oninput="up()"></div>
-    <div class="group"><label>Badge 2</label><input type="text" id="i-bg2" value="🐧 LINUX" oninput="up()"></div>
-    
-    <div class="group"><label>Terminal Header</label><input type="text" id="i-th" value="PEEK-SHELL" oninput="up()"></div>
-    <div class="group"><label>Terminal Comando</label><input type="text" id="i-tc" value="$ bash nmap_peek.sh" oninput="up()"></div>
-    <div class="group"><label>Terminal Log 1</label><input type="text" id="i-tl1" value="[SYSTEM] Initializing..." oninput="up()"></div>
-    <div class="group"><label>Terminal Log 2</label><input type="text" id="i-tl2" value="> Target: 192.168.1.1" oninput="up()"></div>
-    <div class="group full"><label>Terminal Status</label><input type="text" id="i-ts" value="[+] Vulnerability Found!" oninput="up()"></div>
-    
-    <div class="group"><label>Bullet 1</label><input type="text" id="i-b1" value="⚡ SCRIPT PERSONALIZADO" oninput="up()"></div>
-    <div class="group"><label>Bullet 2</label><input type="text" id="i-b2" value="🔍 SCANS AUTOMÁTICOS" oninput="up()"></div>
-    <div class="group"><label>Bullet 3</label><input type="text" id="i-b3" value="🛡️ DETECÇÃO DE VULNS" oninput="up()"></div>
-    <div class="group"><label>Bullet 4</label><input type="text" id="i-b4" value="📱 100% NO CELULAR" oninput="up()"></div>
-    
-    <div class="group full"><label>Aviso Rodapé</label><input type="text" id="i-fw" value="— USO ÉTICO E PROFISSIONAL —" oninput="up()"></div>
-    <div class="group full"><label>CTA Rodapé</label><input type="text" id="i-fc" value="BAIXE NA COMUNIDADE!" oninput="up()"></div>
-  </div>
-  <button class="btn-save" onclick="save()">BAIXAR THUMBNAIL (PNG)</button>
+        <div class="input-field">
+            <label>💻 COMMAND LINE</label>
+            <input type="text" id="commandLine" value="sudo ps-editor --generate --ultrahd">
+        </div>
+
+        <div class="input-field">
+            <label>📜 LOG / OUTPUT</label>
+            <textarea id="logOutput" rows="2">[✓] Thumbnail engine ready
+[+] Chroma shift enabled</textarea>
+        </div>
+
+        <div class="input-field">
+            <label>🏷️ BADGE TEXT</label>
+            <input type="text" id="badgeText" value="KALI LINUX / TERMUX">
+        </div>
+
+        <div class="input-field theme-selector">
+            <label>🎨 COLOR THEME</label>
+            <select id="colorTheme">
+                <option value="neon">Neon Green (default)</option>
+                <option value="purple">Purple Haze</option>
+                <option value="red">Red Alert</option>
+                <option value="blue">Blue Night</option>
+            </select>
+        </div>
+
+        <hr>
+
+        <!-- preview da thumbnail -->
+        <div class="preview-area">
+            <div id="thumbnail-preview">
+                <div class="thumb-inner" id="thumbContent">
+                    <div class="terminal-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        <span style="margin-left: auto;">ps@thumbnail:~</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="prompt">
+                            <span>$</span> <span class="command" id="cmdPreview">sudo ps-editor --generate --ultrahd</span>
+                        </div>
+                        <div class="log-line" id="logPreview">
+                            [✓] Thumbnail engine ready<br>[+] Chroma shift enabled
+                        </div>
+                        <div class="badge" id="badgePreview">KALI LINUX / TERMUX</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="gen-btn" id="captureBtn">⚡ GERAR THUMBNAIL ⚡</button>
+        <div style="text-align: center; margin-top: 12px; font-size: 0.65rem; color:#444;">
+            PEEK SECURITY · direct render
+        </div>
+    </div>
 </div>
 
-<div class="wrapper">
-  <div id="thumbnail">
-    <div class="hacker-asset" id="o-asset-wrap"><img id="o-png" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/PNG_Test.png" crossorigin="anonymous"></div>
-    <div class="scanline"></div>
-    <div class="header-main"><span id="o-l1">PEEK</span><span id="o-l2" style="color:var(--acc)">SECURITY</span></div>
-    <div class="tag-tr" id="o-tr">>_ TERMUX</div>
-    
-    <div class="title-block">
-      <div class="label-peek" id="o-et">🔧 CRIADO POR PEEK</div>
-      <span class="t-l1" id="o-t1">SCRIPT</span>
-      <span class="t-l2" id="o-t2">NMAP</span>
-      <span class="t-l3" id="o-t3">NO TERMUX!</span>
-      <div class="sub-green" id="o-sub">AUTOMATIZE SEUS SCANS EM UM CLIQUE!</div>
-    </div>
-
-    <div class="badges">
-      <div class="b-tag" id="o-bg1">🤖 ANDROID</div>
-      <div class="b-tag" id="o-bg2">🐧 LINUX</div>
-    </div>
-
-    <div class="terminal">
-      <div class="term-h"><span id="o-th">PEEK-SHELL</span><span>● ● ●</span></div>
-      <div style="color:var(--green); margin-bottom:4px;" id="o-tc">$ bash nmap_peek.sh</div>
-      <div style="color:#666; font-size:8px;" id="o-tl1">[SYSTEM] Initializing...</div>
-      <div style="color:#aaa;" id="o-tl2">> Target: 192.168.1.1</div>
-      <div style="color:var(--acc)" id="o-ts">[+] Vulnerability Found!</div>
-      <div style="color:var(--green); border-top:1px solid #222; margin-top:auto; padding-top:4px;">[DONE] _</div>
-    </div>
-
-    <div class="bullets">
-      <div class="bullet" id="o-b1">⚡ SCRIPT PERSONALIZADO</div>
-      <div class="bullet" id="o-b2">🔍 SCANS AUTOMÁTICOS</div>
-      <div class="bullet" id="o-b3">🛡️ DETECÇÃO DE VULNS</div>
-      <div class="bullet" id="o-b4">📱 100% NO CELULAR</div>
-    </div>
-
-    <div class="footer">
-      <div class="f-line"></div>
-      <div class="f-warn" id="o-fw">— USO ÉTICO E PROFISSIONAL —</div>
-      <div class="f-cta" id="o-fc">BAIXE NA <span>COMUNIDADE!</span></div>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-  function setTheme(t) { document.body.className = t; up(); }
-  function up() {
-    document.getElementById('o-png').src = document.getElementById('i-png').value;
-    const map = {
-      'l1':'l1','l2':'l2','tr':'tr','et':'et','t1':'t1','t2':'t2','t3':'t3','sub':'sub',
-      'bg1':'bg1','bg2':'bg2','th':'th','tc':'tc','tl1':'tl1','tl2':'tl2','ts':'ts',
-      'b1':'b1','b2':'b2','b3':'b3','b4':'b4','fw':'fw'
-    };
-    for(let i in map) document.getElementById('o-'+map[i]).textContent = document.getElementById('i-'+i).value;
-    
-    let fc = document.getElementById('i-fc').value;
-    document.getElementById('o-fc').innerHTML = fc.includes('COMUNIDADE!') ? fc.replace('COMUNIDADE!', '<span>COMUNIDADE!</span>') : fc;
-  }
-  async function save() {
-    const canvas = await html2canvas(document.getElementById('thumbnail'), { scale: 3, useCORS: true });
-    const link = document.createElement('a');
-    link.download = 'ps-v2-full.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  }
+    (function() {
+        // elementos
+        const mainTitleInput = document.getElementById('mainTitle');
+        const commandInput = document.getElementById('commandLine');
+        const logTextarea = document.getElementById('logOutput');
+        const badgeInput = document.getElementById('badgeText');
+        const themeSelect = document.getElementById('colorTheme');
+        
+        const cmdPreviewSpan = document.getElementById('cmdPreview');
+        const logPreviewDiv = document.getElementById('logPreview');
+        const badgePreviewSpan = document.getElementById('badgePreview');
+        const thumbInner = document.getElementById('thumbContent');
+        
+        // função que atualiza preview com base nos campos e tema
+        function updatePreview() {
+            // atualiza comando
+            cmdPreviewSpan.innerText = commandInput.value || "ps --help";
+            // log (mantém quebra de linha)
+            let logRaw = logTextarea.value;
+            logPreviewDiv.innerHTML = logRaw.replace(/\n/g, '<br>');
+            // badge
+            badgePreviewSpan.innerText = badgeInput.value || "PEEK ENGINE";
+            // titulo principal não aparece na thumb atualmente? vamos adicionar um título estilizado
+            // melhor: colocar um elemento extra .main-title na thumb, vou injetar dinâmico
+            let existingTitle = document.getElementById('dynamicMainTitle');
+            if(!existingTitle) {
+                let newDiv = document.createElement('div');
+                newDiv.id = 'dynamicMainTitle';
+                newDiv.style.fontSize = '1.3rem';
+                newDiv.style.fontWeight = 'bold';
+                newDiv.style.marginBottom = '0.8rem';
+                newDiv.style.textAlign = 'center';
+                newDiv.style.letterSpacing = '-0.5px';
+                newDiv.style.wordBreak = 'break-word';
+                // coloca antes do terminal-header
+                const terminalHeader = thumbInner.querySelector('.terminal-header');
+                if(terminalHeader) thumbInner.insertBefore(newDiv, terminalHeader);
+                existingTitle = newDiv;
+            }
+            existingTitle.innerText = mainTitleInput.value || "PEEK SECURITY";
+            
+            // aplica tema nas cores
+            const theme = themeSelect.value;
+            if(theme === 'neon') {
+                document.documentElement.style.setProperty('--cor-primaria', '#0f0');
+                thumbInner.style.background = "linear-gradient(145deg, #0e0e0e, #050505)";
+                badgePreviewSpan.style.borderColor = "#0f0";
+                badgePreviewSpan.style.color = "#0f0";
+                badgePreviewSpan.style.backgroundColor = "#0f01a";
+                cmdPreviewSpan.style.color = "#cfc";
+                logPreviewDiv.style.borderLeftColor = "#0f0";
+            }
+            else if(theme === 'purple') {
+                thumbInner.style.background = "linear-gradient(145deg, #1e0a2b, #0b0214)";
+                badgePreviewSpan.style.borderColor = "#c084fc";
+                badgePreviewSpan.style.color = "#e9c0ff";
+                badgePreviewSpan.style.backgroundColor = "#c084fc1a";
+                cmdPreviewSpan.style.color = "#e9c0ff";
+                logPreviewDiv.style.borderLeftColor = "#c084fc";
+            }
+            else if(theme === 'red') {
+                thumbInner.style.background = "linear-gradient(145deg, #2a0a0a, #150000)";
+                badgePreviewSpan.style.borderColor = "#ff4444";
+                badgePreviewSpan.style.color = "#ffa0a0";
+                badgePreviewSpan.style.backgroundColor = "#ff44441a";
+                cmdPreviewSpan.style.color = "#ff9f9f";
+                logPreviewDiv.style.borderLeftColor = "#ff4444";
+            }
+            else if(theme === 'blue') {
+                thumbInner.style.background = "linear-gradient(145deg, #0a1a2a, #010a14)";
+                badgePreviewSpan.style.borderColor = "#3b82f6";
+                badgePreviewSpan.style.color = "#a0c4ff";
+                badgePreviewSpan.style.backgroundColor = "#3b82f61a";
+                cmdPreviewSpan.style.color = "#bbd9ff";
+                logPreviewDiv.style.borderLeftColor = "#3b82f6";
+            }
+        }
+        
+        // captura e download
+        document.getElementById('captureBtn').addEventListener('click', function() {
+            const element = document.getElementById('thumbnail-preview');
+            html2canvas(element, {
+                scale: 3,
+                backgroundColor: null,
+                logging: false,
+                useCORS: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                let titleClean = mainTitleInput.value.replace(/[^a-z0-9]/gi, '_').substring(0, 20);
+                link.download = `ps_thumb_${titleClean || 'peek'}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            }).catch(err => {
+                alert("Erro ao gerar: " + err);
+            });
+        });
+        
+        // eventos em tempo real
+        mainTitleInput.addEventListener('input', updatePreview);
+        commandInput.addEventListener('input', updatePreview);
+        logTextarea.addEventListener('input', updatePreview);
+        badgeInput.addEventListener('input', updatePreview);
+        themeSelect.addEventListener('change', updatePreview);
+        
+        // inicializa
+        updatePreview();
+    })();
 </script>
 </body>
 </html>
